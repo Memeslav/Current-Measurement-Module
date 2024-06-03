@@ -129,6 +129,9 @@ void Measure_frequency(Clock_source source, float* frequency)
     HSI_Enable();
     TIM21_Enable(source);
 
-    while(Time_Data.is_called){}
+    while(Time_Data.is_called)
+    {
+    	Time_Data.is_called++;
+    }
     *frequency = Time_Data.Frequency;
 }

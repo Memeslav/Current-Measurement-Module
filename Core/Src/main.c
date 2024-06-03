@@ -1,13 +1,8 @@
 #include "main.h"
 
-float MSI_FREQU = 0;
-float LSI_FREQU = 0;
 
 int main(void)
 {
-    RCC->CSR |=  RCC_CSR_LSION;
-	while((RCC->CSR & RCC_CSR_LSIRDY) != RCC_CSR_LSIRDY){}
-
     RCC->IOPENR |= RCC_IOPENR_GPIOAEN;
 
         GPIOA->MODER &= ~(GPIO_MODER_MODE9_Msk);
@@ -18,9 +13,10 @@ int main(void)
 
     RCC->ICSCR &= ~RCC_ICSCR_MSIRANGE_Msk;
 
+    RTC_Enable();
+
 	for(;;)
 	{
-		Measure_frequency(LSI, &LSI_FREQU);
-		Measure_frequency(MSI, &MSI_FREQU);
+
 	}
 }
