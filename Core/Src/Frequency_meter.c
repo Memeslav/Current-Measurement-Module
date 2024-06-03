@@ -35,7 +35,6 @@ static void HSI_Disable(void)
     while((RCC->CR & RCC_CR_HSIRDY) == RCC_CR_HSIRDY){}
 }
 
-
 //Работа с TIM21
 static void TIM21_Enable (Clock_source source)
 {

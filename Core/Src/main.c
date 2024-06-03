@@ -21,5 +21,6 @@ int main(void)
 	for(;;)
 	{
 		Measure_frequency(LSI, &LSI_FREQU);
+		Measure_frequency(MSI, &MSI_FREQU);
 	}
 }

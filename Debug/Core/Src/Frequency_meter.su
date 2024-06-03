@@ -1,0 +1,10 @@
+C:/Users/vv.stepanishin/Desktop/Current-Measurement-Module/CMSIS/Inc/core_cm0plus.h:741:22:__NVIC_EnableIRQ	16	static
+C:/Users/vv.stepanishin/Desktop/Current-Measurement-Module/CMSIS/Inc/core_cm0plus.h:777:22:__NVIC_DisableIRQ	16	static,ignoring_inline_asm
+C:/Users/vv.stepanishin/Desktop/Current-Measurement-Module/CMSIS/Inc/core_cm0plus.h:830:22:__NVIC_ClearPendingIRQ	16	static
+C:/Users/vv.stepanishin/Desktop/Current-Measurement-Module/CMSIS/Inc/core_cm0plus.h:848:22:__NVIC_SetPriority	24	static
+../Core/Src/Frequency_meter.c:17:13:HSI_Enable	8	static
+../Core/Src/Frequency_meter.c:27:13:HSI_Disable	8	static
+../Core/Src/Frequency_meter.c:39:13:TIM21_Enable	16	static
+../Core/Src/Frequency_meter.c:79:13:TIM21_Disable	8	static
+../Core/Src/Frequency_meter.c:88:6:TIM21_IRQHandler	16	static
+../Core/Src/Frequency_meter.c:124:6:Measure_frequency	16	static
