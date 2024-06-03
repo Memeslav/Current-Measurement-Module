@@ -1,4 +1,5 @@
 "./CMSIS/Src/system_stm32l0xx.o"
+"./Core/Src/Frequency_meter.o"
 "./Core/Src/main.o"
 "./Core/Src/syscalls.o"
 "./Core/Src/sysmem.o"
