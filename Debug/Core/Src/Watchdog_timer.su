@@ -1,0 +1,2 @@
+../Core/Src/Watchdog_timer.c:12:6:Watchdog_Enable	24	static
+../Core/Src/Watchdog_timer.c:26:6:Watchdog_Update	8	static

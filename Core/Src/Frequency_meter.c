@@ -36,7 +36,7 @@ static void HSI_Disable(void)
 }
 
 //Работа с TIM21
-static void TIM21_Enable (Clock_source source)
+static void TIM21_Enable (void)
 {
     RCC->APB2ENR |= RCC_APB2ENR_TIM21EN;
     while((RCC->APB2ENR & RCC_APB2ENR_TIM21EN) != RCC_APB2ENR_TIM21EN){}
@@ -44,42 +44,28 @@ static void TIM21_Enable (Clock_source source)
             TIM21->PSC = 0;
             TIM21->CNT = 0;
             TIM21->ARR = UINT16_MAX;
-
             TIM21->OR &= ~TIM21_OR_TI1_RMP_Msk;
 
-            if(source == LSI)
-            {
-                TIM21->OR |=  (TIM21_OR_TI1_RMP_0 |
-                               TIM21_OR_TI1_RMP_2);
-            }
-            else if(source == MSI)
-            {
-                TIM21->OR |=  (TIM21_OR_TI1_RMP_0 |
-                               TIM21_OR_TI1_RMP_1);
-            }
+			TIM21->OR |=  (TIM21_OR_TI1_RMP_0 |
+						   TIM21_OR_TI1_RMP_2);
 
             TIM21->CCER  &= ~(TIM_CCER_CC1NP_Msk|
                               TIM_CCER_CC1P_Msk);
 
             TIM21->CCMR1 &=  ~TIM_CCMR1_IC1PSC_Msk;
-
             TIM21->CCR1  &=  ~TIM_CCR1_CCR1_Msk;
-
             TIM21->CCMR1 |=   TIM_CCMR1_CC1S_0;
-
             TIM21->DIER  |=   TIM_DIER_CC1IE;
-
             TIM21->CCER  |=   TIM_CCER_CC1E;
-
             TIM21->CR1   |=   TIM_CR1_CEN;
 
     NVIC_SetPriority(TIM21_IRQn, 0);
-    NVIC_EnableIRQ(TIM21_IRQn);    
+    NVIC_EnableIRQ(TIM21_IRQn);
 }
 static void TIM21_Disable(void)
 {
     NVIC_DisableIRQ(TIM21_IRQn);
-    
+
     RCC->APB2ENR &= ~RCC_APB2ENR_TIM21EN;
     while((RCC->APB2ENR & RCC_APB2ENR_TIM21EN) == RCC_APB2ENR_TIM21EN){}
 }
@@ -104,7 +90,7 @@ void TIM21_IRQHandler(void)
 
             Time_Data.timestep /= (NUMBER_OF_SAMPLES - 1);
 
-            Time_Data.Frequency = 1.0/(Time_Data.timestep * (1.0/HSI_Typical_Frequency));
+            Time_Data.Frequency = 1.0 / (Time_Data.timestep * (1.0/HSI_Typical_Frequency));
 
             TIM21_Disable();
             HSI_Disable();
@@ -121,17 +107,18 @@ void TIM21_IRQHandler(void)
 }
 
 //Измерение частоты
-void Measure_frequency(Clock_source source, float* frequency)
+void Measure_frequency(float* frequency)
 {
     if(Time_Data.is_called){return;}
     else  {Time_Data.is_called = 1;};
 
     HSI_Enable();
-    TIM21_Enable(source);
+    TIM21_Enable();
 
     while(Time_Data.is_called)
     {
     	Time_Data.is_called++;
     }
+
     *frequency = Time_Data.Frequency;
 }

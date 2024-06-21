@@ -1,6 +1,6 @@
 ################################################################################
 # Automatically-generated file. Do not edit!
-# Toolchain: GNU Tools for STM32 (12.3.rel1)
+# Toolchain: GNU Tools for STM32 (11.3.rel1)
 ################################################################################
 
 -include ../makefile.init
@@ -52,6 +52,9 @@ default.size.stdout \
 OBJDUMP_LIST += \
 Current-Measurement-Module.list \
 
+OBJCOPY_HEX += \
+Current-Measurement-Module.hex \
+
 
 # All Target
 all: main-build
@@ -75,12 +78,17 @@ Current-Measurement-Module.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL
 	@echo 'Finished building: $@'
 	@echo ' '
 
+Current-Measurement-Module.hex: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O ihex $(EXECUTABLES) "Current-Measurement-Module.hex"
+	@echo 'Finished building: $@'
+	@echo ' '
+
 # Other Targets
 clean:
-	-$(RM) Current-Measurement-Module.elf Current-Measurement-Module.list Current-Measurement-Module.map default.size.stdout
+	-$(RM) Current-Measurement-Module.elf Current-Measurement-Module.hex Current-Measurement-Module.list Current-Measurement-Module.map default.size.stdout
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX)
 
 fail-specified-linker-script-missing:
 	@echo 'Error: Cannot find the specified linker script. Check the linker settings in the build configuration.'

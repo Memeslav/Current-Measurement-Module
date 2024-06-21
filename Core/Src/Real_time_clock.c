@@ -1,5 +1,7 @@
 #include "Real_time_clock.h"
 
+time_t hehe = 0;
+
 //Значения делителей для LSI = 38 кГц
 #define     PREDIV_A_Default     128U
 #define 	PREDIV_S_Default	 297U
@@ -21,7 +23,7 @@ float RTC_Frequence = LSI_Typical_Frequency;
 static void LSI_Enable(void)
 {
     RCC->CSR |=  RCC_CSR_LSION;
-	while((RCC->CSR & RCC_CSR_LSIRDY) != RCC_CSR_LSIRDY){}   
+	while((RCC->CSR & RCC_CSR_LSIRDY) != RCC_CSR_LSIRDY){}
 }
 
 //Работа с RTC
@@ -43,14 +45,14 @@ static void RTC_Init_Mode_Exit (void)
         while((RTC->ISR & RTC_ISR_INITF) == RTC_ISR_INITF){}
 
 		RTC->WPR  = 0x00;
-	
+
         PWR->CR  &= ~PWR_CR_DBP;
 
 	RCC->APB1ENR &= ~RCC_APB1ENR_PWREN;
 }
 static void RTC_Calibrate(void)
 {
-    Measure_frequency(LSI, &RTC_Frequence);
+    Measure_frequency(&RTC_Frequence);
 
 	RTC_Init_Mode_Enter();
 
@@ -100,16 +102,15 @@ static void RTC_Set_Alarm_A(void)
 
         RTC->CR  &= ~RTC_CR_ALRAE;
         RTC->ISR &= ~RTC_ISR_ALRAF;
-        while ((RTC->ISR & RTC_ISR_ALRAWF) != RTC_ISR_ALRAWF); 
+        while ((RTC->ISR & RTC_ISR_ALRAWF) != RTC_ISR_ALRAWF);
 
         RTC->ISR &= ~RTC_ISR_ALRAF;
 
-        RTC->ALRMAR = RTC_ALRMAR_MSK1 | 
-                      RTC_ALRMAR_MSK2 | 
-                      RTC_ALRMAR_MSK3 | 
+        RTC->ALRMAR = RTC_ALRMAR_MSK2 |
+                      RTC_ALRMAR_MSK3 |
                       RTC_ALRMAR_MSK4;
 
-        RTC->CR |= RTC_CR_ALRAE | 
+        RTC->CR |= RTC_CR_ALRAE |
                    RTC_CR_ALRAIE;
 
         EXTI->RTSR |= EXTI_RTSR_RT17;
@@ -125,16 +126,16 @@ static void RTC_Set_Alarm_B(void)
 
         RTC->CR  &= ~RTC_CR_ALRBE;
         RTC->ISR &= ~RTC_ISR_ALRBF;
-        while ((RTC->ISR & RTC_ISR_ALRBWF) != RTC_ISR_ALRBWF); 
+        while ((RTC->ISR & RTC_ISR_ALRBWF) != RTC_ISR_ALRBWF);
 
         RTC->ISR &= ~RTC_ISR_ALRBF;
 
-        RTC->ALRMBR = RTC_ALRMBR_MSK1 | 
-                      RTC_ALRMBR_MSK2 | 
-                      RTC_ALRMBR_MSK3 | 
+        RTC->ALRMBR = RTC_ALRMBR_MSK1 |
+                      RTC_ALRMBR_MSK2 |
+                      RTC_ALRMBR_MSK3 |
                       RTC_ALRMBR_MSK4;
 
-        RTC->CR |= RTC_CR_ALRBE | 
+        RTC->CR |= RTC_CR_ALRBE |
                    RTC_CR_ALRBIE;
 
         EXTI->RTSR |= EXTI_RTSR_RT17;
@@ -178,7 +179,7 @@ void RTC_Set_Time(struct tm* time)
 
 void RTC_Get_UNIXTIME(time_t* unixtime)
 {
-    struct tm dt =  
+    struct tm dt =
 	{
 		.tm_isdst = 0,
 		.tm_wday  = ((RTC->DR & RTC_DR_WDU_Msk) >> RTC_DR_WDU_Pos) % GET_DAY_OFFSET,
@@ -189,7 +190,7 @@ void RTC_Get_UNIXTIME(time_t* unixtime)
 		.tm_min   = ((RTC->TR & RTC_TR_MNT_Msk) >> RTC_TR_MNT_Pos) * 10 + ((RTC->TR & RTC_TR_MNU_Msk) >> RTC_TR_MNU_Pos),
 		.tm_sec   = ((RTC->TR & RTC_TR_ST_Msk ) >> RTC_TR_ST_Pos ) * 10 + ((RTC->TR & RTC_TR_SU_Msk ) >> RTC_TR_SU_Pos) ,
 	};
-    
+
     *unixtime = mktime(&dt);
 }
 void RTC_Set_UNIXTIME(time_t* unixtime)
@@ -250,16 +251,31 @@ void RTC_Enable (void)
 
     RTC_Calibrate();
 
-    //RTC_Set_WakeUp_Timer(1000);
+    RTC_Set_WakeUp_Timer(1000);
     RTC_Set_Alarm_A();
-    //RTC_Set_Alarm_B();
+    RTC_Set_Alarm_B();
 
-    //Watchdog_Enable(&RTC_Frequence);
+    Watchdog_Enable(&RTC_Frequence);
 }
 
 static void WakeUp_Handler (void)
 {
-	RTC->ISR &= ~RTC_ISR_WUTF;
+	Watchdog_Update();
+
+	RCC->APB1ENR |=  RCC_APB1ENR_PWREN;
+		PWR->CR  |=  PWR_CR_DBP;
+
+		RTC->WPR  =  RTC_KEY_0;
+		RTC->WPR  =  RTC_KEY_1;
+
+		RTC->ISR &= ~RTC_ISR_WUTF;
+
+		RTC->WPR  = 0x00;
+
+		PWR->CR  &= ~PWR_CR_DBP;
+
+	RCC->APB1ENR &= ~RCC_APB1ENR_PWREN;
+
 	EXTI->PR =   EXTI_PR_PIF20;
 }
 static void Alarm_A_Handler(void)
@@ -271,6 +287,9 @@ static void Alarm_A_Handler(void)
 }
 static void Alarm_B_Handler(void)
 {
+	RTC_Get_UNIXTIME(&hehe);
+
+	RTC_Set_Alarm_B();
 	RTC->ISR &= ~RTC_ISR_ALRBF;
 	EXTI->PR =   EXTI_PR_PIF17;
 }
