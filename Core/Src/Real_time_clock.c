@@ -1,7 +1,5 @@
 #include "Real_time_clock.h"
 
-time_t hehe = 0;
-
 //Значения делителей для LSI = 38 кГц
 #define     PREDIV_A_Default     128U
 #define 	PREDIV_S_Default	 297U
@@ -88,7 +86,7 @@ static void RTC_Set_WakeUp_Timer(uint32_t period_ms)
 
 	RCC->APB1ENR &= ~RCC_APB1ENR_PWREN;
 
-	NVIC_SetPriority(RTC_IRQn, 0);
+	NVIC_SetPriority(RTC_IRQn, 1);
 	NVIC_EnableIRQ(RTC_IRQn);
 }
 static void RTC_Set_Alarm_A(void)
@@ -106,7 +104,8 @@ static void RTC_Set_Alarm_A(void)
 
         RTC->ISR &= ~RTC_ISR_ALRAF;
 
-        RTC->ALRMAR = RTC_ALRMAR_MSK2 |
+        RTC->ALRMAR = RTC_ALRMBR_MSK1 |
+        			  RTC_ALRMAR_MSK2 |
                       RTC_ALRMAR_MSK3 |
                       RTC_ALRMAR_MSK4;
 
@@ -246,14 +245,14 @@ void RTC_Enable (void)
 
 	RCC->APB1ENR &= ~RCC_APB1ENR_PWREN;
 
-    NVIC_SetPriority(RTC_IRQn, 1);
+    NVIC_SetPriority(RTC_IRQn, 0);
     NVIC_EnableIRQ(RTC_IRQn);
 
     RTC_Calibrate();
 
     RTC_Set_WakeUp_Timer(1000);
     RTC_Set_Alarm_A();
-    RTC_Set_Alarm_B();
+    //RTC_Set_Alarm_B();
 
     Watchdog_Enable(&RTC_Frequence);
 }
@@ -261,6 +260,8 @@ void RTC_Enable (void)
 static void WakeUp_Handler (void)
 {
 	Watchdog_Update();
+
+	//ADC Launch
 
 	RCC->APB1ENR |=  RCC_APB1ENR_PWREN;
 		PWR->CR  |=  PWR_CR_DBP;
@@ -280,15 +281,19 @@ static void WakeUp_Handler (void)
 }
 static void Alarm_A_Handler(void)
 {
-	RTC_Calibrate();
+	if(++registers.unixtime.lo == 0){registers.unixtime.hi++;}
+
+	if(registers.unixtime.lo % INTERVAL_BETWEEN_CALIBRATIONS == 0)
+	{
+		RTC_Calibrate();
+	}
+
 	RTC_Set_Alarm_A();
 	RTC->ISR &= ~RTC_ISR_ALRAF;
 	EXTI->PR =   EXTI_PR_PIF17;
 }
 static void Alarm_B_Handler(void)
 {
-	RTC_Get_UNIXTIME(&hehe);
-
 	RTC_Set_Alarm_B();
 	RTC->ISR &= ~RTC_ISR_ALRBF;
 	EXTI->PR =   EXTI_PR_PIF17;

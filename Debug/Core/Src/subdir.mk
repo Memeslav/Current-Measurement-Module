@@ -5,24 +5,30 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../Core/Src/Data_exchange_with_PKM.c \
 ../Core/Src/Frequency_meter.c \
 ../Core/Src/Real_time_clock.c \
+../Core/Src/Registers.c \
 ../Core/Src/Watchdog_timer.c \
 ../Core/Src/main.c \
 ../Core/Src/syscalls.c \
 ../Core/Src/sysmem.c 
 
 OBJS += \
+./Core/Src/Data_exchange_with_PKM.o \
 ./Core/Src/Frequency_meter.o \
 ./Core/Src/Real_time_clock.o \
+./Core/Src/Registers.o \
 ./Core/Src/Watchdog_timer.o \
 ./Core/Src/main.o \
 ./Core/Src/syscalls.o \
 ./Core/Src/sysmem.o 
 
 C_DEPS += \
+./Core/Src/Data_exchange_with_PKM.d \
 ./Core/Src/Frequency_meter.d \
 ./Core/Src/Real_time_clock.d \
+./Core/Src/Registers.d \
 ./Core/Src/Watchdog_timer.d \
 ./Core/Src/main.d \
 ./Core/Src/syscalls.d \
@@ -36,7 +42,7 @@ Core/Src/%.o Core/Src/%.su Core/Src/%.cyclo: ../Core/Src/%.c Core/Src/subdir.mk
 clean: clean-Core-2f-Src
 
 clean-Core-2f-Src:
-	-$(RM) ./Core/Src/Frequency_meter.cyclo ./Core/Src/Frequency_meter.d ./Core/Src/Frequency_meter.o ./Core/Src/Frequency_meter.su ./Core/Src/Real_time_clock.cyclo ./Core/Src/Real_time_clock.d ./Core/Src/Real_time_clock.o ./Core/Src/Real_time_clock.su ./Core/Src/Watchdog_timer.cyclo ./Core/Src/Watchdog_timer.d ./Core/Src/Watchdog_timer.o ./Core/Src/Watchdog_timer.su ./Core/Src/main.cyclo ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/syscalls.cyclo ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.cyclo ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su
+	-$(RM) ./Core/Src/Data_exchange_with_PKM.cyclo ./Core/Src/Data_exchange_with_PKM.d ./Core/Src/Data_exchange_with_PKM.o ./Core/Src/Data_exchange_with_PKM.su ./Core/Src/Frequency_meter.cyclo ./Core/Src/Frequency_meter.d ./Core/Src/Frequency_meter.o ./Core/Src/Frequency_meter.su ./Core/Src/Real_time_clock.cyclo ./Core/Src/Real_time_clock.d ./Core/Src/Real_time_clock.o ./Core/Src/Real_time_clock.su ./Core/Src/Registers.cyclo ./Core/Src/Registers.d ./Core/Src/Registers.o ./Core/Src/Registers.su ./Core/Src/Watchdog_timer.cyclo ./Core/Src/Watchdog_timer.d ./Core/Src/Watchdog_timer.o ./Core/Src/Watchdog_timer.su ./Core/Src/main.cyclo ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/syscalls.cyclo ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.cyclo ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su
 
 .PHONY: clean-Core-2f-Src
 
