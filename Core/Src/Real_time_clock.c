@@ -15,6 +15,7 @@
 float RTC_Frequence = LSI_Typical_Frequency;
 
 volatile uint8_t MAIN_PROGRAM_STATE = RUN;
+volatile uint8_t CURRENTS_UPDATE_TIMER = STOP;
 
 //Работа с LSI
 static void LSI_Enable(void)
@@ -99,6 +100,7 @@ void RTC_IRQHandler(void)
 
 	    if (++(registers.unixtime.lo) == 0){++(registers.unixtime.hi);}
 	    if(registers.unixtime.lo % 60 == 0){RTC_Calibrate();}
+	    if(CURRENTS_UPDATE_TIMER > 0){CURRENTS_UPDATE_TIMER--;}
 
 	    MAIN_PROGRAM_STATE = RUN;
 
