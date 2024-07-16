@@ -1,7 +1,7 @@
 #include "Module_PKM.h"
 
 //Параметры таймера обновления значений тока
-#define 	UPDATE_DELAY		15U
+#define 	UPDATE_DELAY		30U
 
 typedef struct
 {
@@ -179,7 +179,7 @@ void SPI1_IRQHandler(void)
 					if(CURRENTS_UPDATE_TIMER == STOP)
 					{
 						Load_currents_into_registers();
-						CURRENTS_UPDATE_TIMER == UPDATE_DELAY;
+						CURRENTS_UPDATE_TIMER = UPDATE_DELAY;
 					}
 				}
 
