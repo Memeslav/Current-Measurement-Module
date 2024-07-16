@@ -1,8 +1,0 @@
-"./CMSIS/Src/system_stm32l0xx.o"
-"./Core/Src/Frequency_meter.o"
-"./Core/Src/Real_time_clock.o"
-"./Core/Src/Watchdog_timer.o"
-"./Core/Src/main.o"
-"./Core/Src/syscalls.o"
-"./Core/Src/sysmem.o"
-"./Startup/startup_stm32l053c8tx.o"
