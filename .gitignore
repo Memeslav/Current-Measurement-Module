@@ -18,3 +18,9 @@
 
 !.gitignore
 !.gitattributes
+
+# Игнорируем файлы прошивки и другие бинарные файлы
+*.elf
+*.bin
+*.hex
+*.map
