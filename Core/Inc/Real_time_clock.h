@@ -24,6 +24,7 @@
 
 //Флаг для запуска и остановки выполнения кода
 extern volatile uint8_t MAIN_PROGRAM_STATE;
+extern volatile uint8_t CURRENTS_UPDATE_TIMER;
 
 typedef enum
 {

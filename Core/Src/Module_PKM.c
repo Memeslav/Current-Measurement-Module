@@ -1,5 +1,8 @@
 #include "Module_PKM.h"
 
+//Параметры таймера обновления значений тока
+#define 	UPDATE_DELAY		15U
+
 typedef struct
 {
 	uint16_t data[SPI_BUFFER_SIZE];
@@ -171,8 +174,14 @@ void SPI1_IRQHandler(void)
 	        }
 			else if	(buffer.index <  (2 + buffer.register_count))
 	        {
-				if(buffer.start_address == UNIXTIME_L)
-				{Load_currents_into_registers();}
+				if(buffer.start_address == MAX_CURR)
+				{
+					if(CURRENTS_UPDATE_TIMER == STOP)
+					{
+						Load_currents_into_registers();
+						CURRENTS_UPDATE_TIMER == UPDATE_DELAY;
+					}
+				}
 
 				*((__IO uint16_t *)&CRC->DR) = __REV16(regs[buffer.start_address]);
 									SPI1->DR = __REV16(regs[buffer.start_address]);
