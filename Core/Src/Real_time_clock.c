@@ -15,7 +15,7 @@
 float RTC_Frequence = LSI_Typical_Frequency;
 
 volatile uint8_t MAIN_PROGRAM_STATE = RUN;
-volatile uint8_t CURRENTS_UPDATE_TIMER = 0;
+volatile uint8_t CURRENTS_UPDATE_TIMER = STOP;
 
 //Работа с LSI
 static void LSI_Enable(void)
