@@ -5,7 +5,7 @@ volatile ADC_STATE adc_state = {0};
 
 static void Cycle_Delay(void)
 {
-	for(int i = 0; i < 5000; i++);
+	for(int i = 0; i < 20000; i++);
 }
 
 static void Enable_DMA (void)
