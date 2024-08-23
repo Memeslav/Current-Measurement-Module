@@ -3,10 +3,6 @@
 
 #include "stm32l053xx.h"
 
-#include "Real_time_clock.h"
-#include "Digital_processor.h"
-
-#include "Module_FRAM.h"
-#include "Module_PKM.h"
+#include "RTC.h"
 
 #endif
