@@ -97,7 +97,7 @@ void ADC_COMP_IRQHandler(void)
 	if((ADC1->ISR & ADC_ISR_EOS) == ADC_ISR_EOS)
 	{
 		adc_raw_data.signal  = adc_raw_data.ina333_output - adc_raw_data.tpr3312_output;
-		adc_raw_data.signal -= ADC_INPUT_OFFSET_LEVEL;
+		adc_raw_data.signal += ADC_INPUT_OFFSET_LEVEL;
 
 		ADC1->ISR |= ADC_ISR_EOS;
 

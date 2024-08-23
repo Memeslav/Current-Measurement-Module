@@ -9,7 +9,7 @@
 #define ADC_MAXIMAL_LEVEL		4095
 #define ADC_MINIMAL_LEVEL  	   -4095
 
-#define ADC_INPUT_OFFSET_LEVEL	5
+#define ADC_INPUT_OFFSET_LEVEL	2
 
 typedef enum
 {

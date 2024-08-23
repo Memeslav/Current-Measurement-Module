@@ -15,7 +15,7 @@ volatile REGISTERS registers =
 
 	.reserve		= 	{0},
 
-	.calibration	= 	{1220},		// calibration parameter
+	.calibration	= 	{1208},		// calibration parameter
 
 	.mcu_data		= 	{38000,		// lsi frequency, hertz
 						20,			// temperature, celsius
