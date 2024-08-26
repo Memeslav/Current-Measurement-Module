@@ -22,7 +22,7 @@ volatile REGISTERS registers =
 						0x0000,		// msi frequency, hertz
 						0x0000},	// msi frequency, hertz
 
-	.po_version		= 	{105},
+	.po_version		= 	{106},
 };
 uint16_t* regs = (uint16_t*)&registers;
 
