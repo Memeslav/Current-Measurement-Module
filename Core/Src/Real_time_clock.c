@@ -29,8 +29,8 @@ static void RTC_Calibrate(void)
 {
     Measure_frequency(LSI, &RTC_Frequence);
 
-	uint16_t PREDIV_S =      PREDIV_S_Default;
-	PREDIV_S = RTC_Frequence/PREDIV_A_Default;
+	uint16_t PREDIV_S =      127; //PREDIV_S_Default;
+	PREDIV_S = 				 256; //RTC_Frequence/PREDIV_A_Default;
 
 	RTC->PRER =  RTC_PRER_PREDIV_A_Msk | PREDIV_S;
 	RTC->PRER =  RTC_PRER_PREDIV_A_Msk | PREDIV_S;
@@ -73,8 +73,6 @@ void Real_time_clock_enable(void)
     RTC_Calibrate();
 
     Watchdog_Enable(&RTC_Frequence);
-
-
 
     RCC->APB1ENR |=  RCC_APB1ENR_PWREN;
 
