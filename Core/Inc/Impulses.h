@@ -3,6 +3,7 @@
 
 #include "Memory.h"
 #include "Driver_ADC.h"
+#include "LEDS.h"
 
 typedef struct
 {

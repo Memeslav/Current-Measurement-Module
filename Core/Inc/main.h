@@ -9,4 +9,6 @@
 #include "Module_FRAM.h"
 #include "Module_PKM.h"
 
+#include "LEDS.h"
+
 #endif

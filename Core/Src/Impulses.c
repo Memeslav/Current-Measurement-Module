@@ -51,10 +51,14 @@ int Impulse_update(void)
 	{
 		if(adc_raw_data.signal >= impulse_settings.trigger.upper_limit)
 		{
+			if(LED_Check_Jumper() == 1){LED_YEL_ON();}
+
 			impulse_data.status = INSIDE_THE_IMPULSE;
 
 			Impulse_start();
 			Impulse_record();
+
+			LED_YEL_OFF();
 
 			return INSIDE_THE_IMPULSE;
 		}

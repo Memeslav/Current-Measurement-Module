@@ -2,6 +2,8 @@
 
 int main(void)
 {
+	LED_Init();
+
 	Real_time_clock_enable();
 	LOAD_REGISTERS_FROM_FRAM();
 	Digital_processor_enable();

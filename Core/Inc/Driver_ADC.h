@@ -3,6 +3,8 @@
 
 #include "stm32l053xx.h"
 
+#include "LEDS.h"
+
 #define NUMBER_OF_ADC_CHANNELS 	4
 #define SUPPLY_VOLTAGE_LEVEL 	4095
 

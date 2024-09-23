@@ -8,6 +8,8 @@
 #include "Currents.h"
 #include "Impulses.h"
 
+#include "LEDS.h"
+
 #define INTERNAL_REFERENCE_VOLTAGE 1.224
 
 typedef struct

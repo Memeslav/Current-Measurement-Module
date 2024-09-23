@@ -66,10 +66,14 @@ static void Measuring_circuits_enable(void)
 	GPIOB->MODER &=~GPIO_MODER_MODE2_1;
 	GPIOB->BSRR  |= GPIO_BSRR_BS_2;
 
+	if(LED_Check_Jumper() == 1){LED_GRN_ON();}
+
 	Cycle_Delay();
 }
 static void Measuring_circuits_disable(void)
 {
+	LED_GRN_OFF();
+
 	GPIOB->BSRR |= GPIO_BSRR_BR_2;
 	RCC->IOPENR &=~RCC_IOPENR_GPIOBEN;
 }
@@ -90,6 +94,8 @@ void Run_single_measurement(void)
 	ADC1->CR |= ADC_CR_ADSTART;
 
 	while(adc_state == BUSY);
+
+	LED_GRN_OFF();
 }
 
 void ADC_COMP_IRQHandler(void)

@@ -9,6 +9,8 @@
 #include "Digital_processor.h"
 #include "Real_time_clock.h"
 
+#include "LEDS.h"
+
 #define SPI_BUFFER_SIZE 32
 
 void Module_PKM_Enable(void);

@@ -104,6 +104,8 @@ void EXTI4_15_IRQHandler(void)
 }
 void SPI1_IRQHandler(void)
 {
+	if(LED_Check_Jumper() == 1){LED_BLU_ON();}
+
 	if(SPI1->SR & SPI_SR_RXNE)
 	{
 		buffer.data[buffer.index] = SPI1->DR;
@@ -195,6 +197,8 @@ void SPI1_IRQHandler(void)
 
 		buffer.index++;
 	}
+
+	LED_BLU_OFF();
 
 	NVIC_ClearPendingIRQ(SPI1_IRQn);
 }
