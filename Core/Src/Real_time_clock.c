@@ -14,6 +14,10 @@
 //Частота работы LSI
 float RTC_Frequence = 32768;
 
+//Интервал между измерениями
+uint16_t measure_period_time = 0;
+
+//Статус выполнения программ
 volatile uint8_t MAIN_PROGRAM_STATE = RUN;
 volatile uint8_t CURRENTS_UPDATE_TIMER = STOP;
 
@@ -48,7 +52,9 @@ void RTC_Set_WakeUp_Timer(void)
 		RTC->CR  |=  RTC_CR_WUCKSEL_2;
 		RTC->ISR &= ~RTC_ISR_WUTF;
 
-		RTC->WUTR = --registers.settings.measure_period;
+		measure_period_time = registers.settings.measure_period;
+
+		RTC->WUTR = 0;
 
 		RTC->CR |=  RTC_CR_WUTE |
 					RTC_CR_WUTIE;
@@ -107,7 +113,12 @@ void RTC_IRQHandler(void)
 	    if (++(registers.unixtime.lo) == 0){++(registers.unixtime.hi);}
 	    if(CURRENTS_UPDATE_TIMER > 0){CURRENTS_UPDATE_TIMER--;}
 
-	    MAIN_PROGRAM_STATE = RUN;
+	    if(!(--measure_period_time))
+	    {
+	    	MAIN_PROGRAM_STATE = RUN;
+
+	    	measure_period_time = registers.settings.measure_period;
+	    }
 
 		RTC->ISR &= ~RTC_ISR_WUTF;
 		EXTI->PR =   EXTI_PR_PIF20;
