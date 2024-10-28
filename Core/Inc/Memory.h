@@ -11,18 +11,18 @@ typedef enum
 {
 	UNIXTIME_L,
 	UNIXTIME_H,
-	//=========
+	//=========2
 	MAX_CURR,
 	AVE_CURR,
 	MIN_CURR,
-	//=========
+	//=========5
 	GLBL_CNT_L,
 	GLBL_CNT_H,
 	LST_READ_L,
 	LST_READ_H,
 	SHW_PULS_L,
 	SHW_PULS_H,
-	//=========
+	//=========11
 	PULS_NUM_L,
 	PULS_NUM_H,
 	TIM_STRT_L,
@@ -31,7 +31,7 @@ typedef enum
 	CONTINIS_H,
 	MAX_AMPL,
 	AVE_AMPL,
-	//=========
+	//=========19
 	MIN_WIDT_L,
 	MIN_WIDT_H,
 	MEAS_PER,

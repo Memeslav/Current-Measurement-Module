@@ -4,6 +4,8 @@ int main(void)
 {
 	Real_time_clock_enable();
 	LOAD_REGISTERS_FROM_FRAM();
+
+	RTC_Set_WakeUp_Timer();
 	Digital_processor_enable();
 	Module_PKM_Enable();
 
