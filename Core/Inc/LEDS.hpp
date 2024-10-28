@@ -21,6 +21,8 @@ class LEDS_CONTROLLER
 		void turn_all_off(void);
 
 		void toggle_all  (void);
+
+		void show_code(uint8_t code);
 };
 
 #endif

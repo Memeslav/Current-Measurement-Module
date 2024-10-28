@@ -19,3 +19,12 @@ void LEDS_CONTROLLER::toggle_all(void)
 {
     for (uint8_t i = 0; i < LEDS_COUNT; ++i) {LEDS[i].toggle();}
 }
+
+void LEDS_CONTROLLER::show_code(uint8_t code)
+{
+	for (uint8_t i = 0; i < LEDS_COUNT; ++i)
+	{
+		if (code & (1 << i))	{LEDS[i].on();}
+		else					{LEDS[i].off();}
+	}
+}
