@@ -9,6 +9,16 @@
 
 class LEDS_CONTROLLER
 {
+	public:
+
+		enum LEDS_CODE
+		{
+			MEASURE_RAN			= 0b1000,
+			IMPULSE_DETECTED	= 0b0100,
+			DATA_EXCHANGE		= 0b0010,
+			QUARTZ_LAUNCHING	= 0b0001,
+		};
+
 	private:
 
 		LED LEDS[LEDS_COUNT];
@@ -22,7 +32,7 @@ class LEDS_CONTROLLER
 
 		void toggle_all  (void);
 
-		void show_code(uint8_t code);
+		void show_code	 (uint8_t code);
 };
 
 #endif
