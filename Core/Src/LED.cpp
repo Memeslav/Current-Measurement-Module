@@ -10,10 +10,10 @@ LED::LED(LED_STATE initState, LED_COLOR color, uint32_t port, uint32_t pin) : st
 
 void LED::on(void)
 {
-    if		(port == RCC_IOPENR_GPIOAEN) {GPIOA->BSRR = (1U << pin);}
-    else if (port == RCC_IOPENR_GPIOBEN) {GPIOB->BSRR = (1U << pin);}
+	if		(port == RCC_IOPENR_GPIOAEN) {GPIOA->BSRR = (1U << pin);}
+	else if (port == RCC_IOPENR_GPIOBEN) {GPIOB->BSRR = (1U << pin);}
 
-    state = ON;
+	state = ON;
 }
 
 void LED::off()

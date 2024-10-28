@@ -1,9 +1,9 @@
-#ifndef PKM_HPP_
-#define PKM_HPP_
+#ifndef DPU_HPP_
+#define DPU_HPP_
 
 #include "stm32l053xx.h"
 
-class PKM
+class DPU
 {
 	private:
 

@@ -25,16 +25,13 @@ class LED
 
 		LED_STATE state;
 		LED_COLOR color;
-
 		uint32_t   port;
 		uint32_t    pin;
 
 	public:
 
-		LED(LED_STATE state,
-			LED_COLOR color,
-			uint32_t  port,
-			uint32_t  pin);
+		LED(LED_STATE state, LED_COLOR color,
+			uint32_t   port,  uint32_t  pin);
 
 		LED_COLOR get_color(void);
 		LED_STATE get_state(void);

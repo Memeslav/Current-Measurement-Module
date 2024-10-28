@@ -5,16 +5,17 @@
 
 #include "LED.hpp"
 
+#define LEDS_COUNT	4U
+
 class LEDS_CONTROLLER
 {
 	private:
 
-		LED* LEDS;
-		uint8_t LEDS_COUNT;
+		LED LEDS[LEDS_COUNT];
 
 	public:
 
-		LEDS_CONTROLLER(LED* LEDS, uint8_t LEDS_COUNT);
+		LEDS_CONTROLLER();
 
 		void turn_all_on (void);
 		void turn_all_off(void);

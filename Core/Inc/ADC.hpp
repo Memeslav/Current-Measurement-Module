@@ -1,11 +1,13 @@
-#ifndef PKM_HPP_
-#define PKM_HPP_
+#ifndef ADC_HPP_
+#define ADC_HPP_
 
 #include "stm32l053xx.h"
 
-class PKM
+class _ADC
 {
 	private:
+
+
 
 	public:
 };
