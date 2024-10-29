@@ -3,7 +3,7 @@
 volatile REGISTERS registers =
 {
 	.unixtime 		= 	{
-							0			// unitime
+							0			// unixtime
 						},
 	//---------------------------------------------------------------
 	.currents 		= 	{
