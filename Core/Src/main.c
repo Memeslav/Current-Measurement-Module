@@ -2,7 +2,9 @@
 
 int main(void)
 {
-    while(1)
+	PKM_Enable();
+
+	while(1)
     {
 
     }
