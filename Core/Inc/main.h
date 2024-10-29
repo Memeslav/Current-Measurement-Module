@@ -4,5 +4,6 @@
 #include "MEM.h"
 #include "FRAM.h"
 #include "PKM.h"
+#include "LEDS.h"
 
 #endif
