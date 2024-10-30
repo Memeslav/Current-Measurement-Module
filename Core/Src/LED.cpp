@@ -1,34 +1,19 @@
 #include "LED.hpp"
 
-LED::LED(LED_STATE initState, LED_COLOR color, uint32_t port, uint32_t pin) : state(initState), color(color), port(port), pin(pin)
+Led::Led(Color color, GPIO_TypeDef* port, uint32_t pin) : color(color), port(port), pin(pin)
 {
-	RCC->IOPENR |= port;
+    if (port == GPIOA)	{RCC->IOPENR |= RCC_IOPENR_GPIOAEN;}
+    else				{RCC->IOPENR |= RCC_IOPENR_GPIOBEN;}
 
-	if		(port == RCC_IOPENR_GPIOAEN) {GPIOA->MODER = (GPIOA->MODER & ~(3U << (pin * 2))) | (1U << (pin * 2));}
-	else if (port == RCC_IOPENR_GPIOBEN) {GPIOB->MODER = (GPIOB->MODER & ~(3U << (pin * 2))) | (1U << (pin * 2));}
+    port->MODER = (port->MODER & ~(3U << (pin * 2))) | (1U << (pin * 2));
 }
 
-void LED::on(void)
-{
-	if		(port == RCC_IOPENR_GPIOAEN) {GPIOA->BSRR = (1U << pin);}
-	else if (port == RCC_IOPENR_GPIOBEN) {GPIOB->BSRR = (1U << pin);}
+Led::Color Led::get_Color() const	{return color;}
 
-	state = ON;
-}
+bool Led::get_State() 		const	{return (port->ODR & (1U << pin)) != 0;}
 
-void LED::off()
-{
-	if		(port == RCC_IOPENR_GPIOAEN) {GPIOA->BSRR = (1U << (pin + 16));}
-	else if (port == RCC_IOPENR_GPIOBEN) {GPIOB->BSRR = (1U << (pin + 16));}
+void Led::on()		{port->BSRR = (1U << pin);}
 
-	state = OFF;
-}
+void Led::off()		{port->BSRR = (1U << (pin + 16));}
 
-void LED::toggle()
-{
-	if(state == OFF) {on(); }
-	else			 {off();}
-}
-
-LED::LED_COLOR LED::get_color(void) {return color;}
-LED::LED_STATE LED::get_state(void) {return state;}
+void Led::toggle()	{port->ODR ^= (1U << pin);}

@@ -1,30 +1,23 @@
 #include "LEDS.hpp"
 
-LEDS_CONTROLLER::LEDS_CONTROLLER() : LEDS  {LED(LED::OFF, LED::RED, RCC_IOPENR_GPIOAEN, 15),
-    										LED(LED::OFF, LED::BLU, RCC_IOPENR_GPIOBEN,  3),
-											LED(LED::OFF, LED::YEL, RCC_IOPENR_GPIOBEN,  4),
-											LED(LED::OFF, LED::GRN, RCC_IOPENR_GPIOBEN,  5)} {}
-
-void LEDS_CONTROLLER::turn_all_on(void)
+LEDS::LEDS(void) : Leds
 {
-    for (uint8_t i = 0; i < LEDS_COUNT; ++i) {LEDS[i].on();}
-}
+        {Led::Color::RED, GPIOA, 15},
+        {Led::Color::BLU, GPIOB,  3},
+        {Led::Color::YEL, GPIOB,  4},
+        {Led::Color::GRN, GPIOB,  5},
+}{}
 
-void LEDS_CONTROLLER::turn_all_off(void)
-{
-    for (uint8_t i = 0; i < LEDS_COUNT; ++i) {LEDS[i].off();}
-}
+void LEDS::turn_all_on(void)	{for (auto& led : Leds)	{led.on(); }}
 
-void LEDS_CONTROLLER::toggle_all(void)
-{
-    for (uint8_t i = 0; i < LEDS_COUNT; ++i) {LEDS[i].toggle();}
-}
+void LEDS::turn_all_off(void)	{for (auto& led : Leds)	{led.off();}}
 
-void LEDS_CONTROLLER::show_code(uint8_t code)
+void LEDS::show_code(uint8_t code)
 {
-	for (uint8_t i = 0; i < LEDS_COUNT; ++i)
-	{
-		if (code & (1 << i))	{LEDS[i].on();}
-		else					{LEDS[i].off();}
-	}
+    turn_all_off();
+
+    for (uint8_t i = 0; i < LEDS_COUNT; ++i)
+    {
+        if (code & (1U << i)) {Leds[i].on();}
+    }
 }

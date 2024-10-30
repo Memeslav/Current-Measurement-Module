@@ -3,42 +3,35 @@
 
 #include "stm32l053xx.h"
 
-class LED
+class Led
 {
 	public:
 
-		enum LED_STATE
+	 	 enum class Color : uint8_t
 		{
-			OFF,
-			 ON,
-		};
-
-		enum LED_COLOR
-		{
-			RED,
-			BLU,
-			GRN,
-			YEL,
+			RED = 0,
+			BLU	= 1,
+			GRN	= 2,
+			YEL	= 3,
 		};
 
 	private:
 
-		LED_STATE state;
-		LED_COLOR color;
-		uint32_t   port;
-		uint32_t    pin;
+		Color 			color;
+
+	    GPIO_TypeDef* 	port;
+	    uint32_t 		pin;
 
 	public:
 
-		LED(LED_STATE state, LED_COLOR color,
-			uint32_t   port,  uint32_t  pin);
+	    Led(Color color, GPIO_TypeDef* port, uint32_t pin);
 
-		LED_COLOR get_color(void);
-		LED_STATE get_state(void);
+	    Color 	get_Color() const;
+	    bool 	get_State() const;
 
-		void on		(void);
-		void off	(void);
-		void toggle	(void);
+	    void 	on();
+	    void 	off();
+	    void 	toggle();
 };
 
 #endif
