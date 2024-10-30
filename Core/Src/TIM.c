@@ -1,0 +1,39 @@
+#include "TIM.h"
+
+void TIM21_Init	  (void)
+{
+    RCC->APB2ENR |= RCC_APB2ENR_TIM21EN;
+    while((RCC->APB2ENR & RCC_APB2ENR_TIM21EN) != RCC_APB2ENR_TIM21EN){}
+
+    	TIM21->ARR = UINT16_MAX;
+		TIM21->PSC = 0;
+		TIM21->CNT = 0;
+
+		TIM21->CCER  &= ~(TIM_CCER_CC1NP_Msk | TIM_CCER_CC1P_Msk);
+
+		TIM21->CCMR1 &=  ~TIM_CCMR1_IC1PSC_Msk;
+
+		TIM21->CCR1  &=  ~TIM_CCR1_CCR1_Msk;
+
+		TIM21->CCMR1 |=   TIM_CCMR1_CC1S_0;
+
+		TIM21->DIER  |=   TIM_DIER_CC1IE;
+
+		TIM21->CCER  |=   TIM_CCER_CC1E;
+}
+
+void TIM21_Enable (void)
+{
+    NVIC_SetPriority(TIM21_IRQn, 0);
+    NVIC_EnableIRQ(TIM21_IRQn);
+
+	TIM21->CR1	|=	TIM_CR1_CEN;
+}
+
+void TIM21_Disable(void)
+{
+    NVIC_DisableIRQ(TIM21_IRQn);
+
+    RCC->APB2ENR &= ~RCC_APB2ENR_TIM21EN;
+    while((RCC->APB2ENR & RCC_APB2ENR_TIM21EN) == RCC_APB2ENR_TIM21EN){}
+}
