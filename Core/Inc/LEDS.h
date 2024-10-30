@@ -3,6 +3,8 @@
 
 #include "stm32l053xx.h"
 
+#define LEDS_COUNT 4U
+
 typedef enum
 {
 	RED = 0,
@@ -12,8 +14,27 @@ typedef enum
 }
 LED_COLOUR;
 
-void LED_Enable 	(LED_COLOUR led_colour);
-void LED_Disable	(LED_COLOUR led_colour);
-void LED_Toggle		(LED_COLOUR led_colour);
+typedef enum
+{
+	off		= 0,
+	on		= 1,
+}
+LED_STATUS;
+
+typedef struct
+{
+	uint16_t 		pin;
+	GPIO_TypeDef	*port;
+
+	LED_COLOUR		color;
+	LED_STATUS		status;
+
+    void (*set)		(uint16_t, GPIO_TypeDef*, LED_STATUS);
+}
+LED;
+
+void LED_Init(LED *led, LED_COLOUR color);
+void LED_Set(LED *led, LED_STATUS state);
+void LED_Toggle(LED *led);
 
 #endif
