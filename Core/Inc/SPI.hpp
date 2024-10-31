@@ -9,6 +9,11 @@ class _SPI
 
 		SPI_TypeDef* SPI_ID;
 
+		void SPI_Init ();
+		void GPIO_Init();
+
+	    static constexpr uint32_t TIMEOUT_LIMIT = 100000;
+
 	public:
 
 		explicit _SPI(SPI_TypeDef* SPI_ID);

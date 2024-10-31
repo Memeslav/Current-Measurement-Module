@@ -9,7 +9,7 @@ class MB85RS64PNF
 {
 	public:
 
-		enum MB85RS64PNF_CODE
+		enum MB85RS64PNF_CODE : uint8_t
 		{
 			WREN	= 0x06,	// Set Write Enable Latch
 			WRDI	= 0x04,	// Reset Write Enable Latch
