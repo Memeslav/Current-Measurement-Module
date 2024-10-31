@@ -23,9 +23,12 @@ class MB85RS64PNF
 
 		_SPI spi;
 
+	    inline void EnableCS () { spi.low_CS(); }
+	    inline void DisableCS() { spi.hig_CS(); }
+
 	public:
 
-		MB85RS64PNF(SPI_TypeDef* SPI_ID);
+		MB85RS64PNF(SPI_TypeDef* SPI_ID) : spi(SPI_ID) {};
 
 		void read (uint16_t address, uint16_t data_size, uint8_t* data);
 		void write(uint16_t address, uint16_t data_size, uint8_t* data);

@@ -7,7 +7,7 @@ class Led
 {
 	public:
 
-	 	 enum class Color : uint8_t
+		enum class Color : uint8_t
 		{
 			RED = 0,
 			BLU	= 1,

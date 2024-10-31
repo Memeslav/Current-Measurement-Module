@@ -1,30 +1,35 @@
 #include "FRAM.hpp"
 
-MB85RS64PNF::MB85RS64PNF(SPI_TypeDef* SPI_ID) : spi(SPI_ID) {}
-
-void MB85RS64PNF::read (uint16_t address, uint16_t data_size, uint8_t* data)
+void MB85RS64PNF::read(uint16_t address, uint16_t data_size, uint8_t* data)
 {
-	spi.low_CS();
-	spi.transfer_byte(READ);
-	spi.transfer_byte((address >> 8) & 0xFF);
-	spi.transfer_byte(address & 0xFF);
+    EnableCS();
+    spi.transfer_byte(static_cast<uint8_t>(MB85RS64PNF::MB85RS64PNF_CODE::READ));
+    spi.transfer_byte(address >> 8);
+    spi.transfer_byte(address & 0xFF);
 
-	for (uint16_t i = 0; i < data_size; i++) {data[i] = spi.transfer_byte(0x00);}
-	spi.hig_CS();
+    for (uint16_t i = 0; i < data_size; i++)
+    {
+        data[i] = spi.transfer_byte(0x00);
+    }
+
+    DisableCS();
 }
 
 void MB85RS64PNF::write(uint16_t address, uint16_t data_size, uint8_t* data)
 {
-    spi.low_CS();
-    spi.transfer_byte(WREN);
-    spi.hig_CS();
+    EnableCS();
+    spi.transfer_byte(static_cast<uint8_t>(MB85RS64PNF::MB85RS64PNF_CODE::WREN));
+    DisableCS();
 
-    spi.low_CS();
-	spi.transfer_byte(WRITE);
-	spi.transfer_byte((address >> 8) & 0xFF);
-	spi.transfer_byte(address & 0xFF);
+    EnableCS();
+    spi.transfer_byte(static_cast<uint8_t>(MB85RS64PNF::MB85RS64PNF_CODE::WRITE));
+    spi.transfer_byte(address >> 8);
+    spi.transfer_byte(address & 0xFF);
 
-	for (uint16_t i = 0; i < data_size; i++) {spi.transfer_byte(data[i]);}
-	spi.hig_CS();
+    for (uint16_t i = 0; i < data_size; i++)
+    {
+        spi.transfer_byte(data[i]);
+    }
+
+    DisableCS();
 }
-
