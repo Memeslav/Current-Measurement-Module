@@ -1,23 +1,24 @@
 #include "main.h"
 
-LED leds[LEDS_COUNT];
+LED led_1 = {RED, 15, GPIOA};
+LED led_2 = {BLU,  3, GPIOB};
+LED led_3 = {YEL,  4, GPIOB};
+LED led_4 = {GRN,  5, GPIOB};
 
 int main(void)
 {
-	LED_Init(&leds[RED], RED);
-	LED_Init(&leds[BLU], BLU);
-	LED_Init(&leds[YEL], YEL);
-	LED_Init(&leds[GRN], GRN);
+	LED_Init(&led_1);
+	LED_Init(&led_2);
+	LED_Init(&led_3);
+	LED_Init(&led_4);
+
+	LED_Enable(&led_1);
+	LED_Enable(&led_2);
+	LED_Enable(&led_3);
+	LED_Enable(&led_4);
 
     while (1)
     {
-        LED_Toggle(&leds[RED]);
-    	for(int i = 0; i < 100000; i++);
-        LED_Toggle(&leds[BLU]);
-    	for(int i = 0; i < 100000; i++);
-        LED_Toggle(&leds[YEL]);
-    	for(int i = 0; i < 100000; i++);
-        LED_Toggle(&leds[GRN]);
-    	for(int i = 0; i < 100000; i++);
+
     }
 }
