@@ -11,12 +11,12 @@ class _SPI
 
 	public:
 
-		_SPI(SPI_TypeDef* SPI_ID);
+		explicit _SPI(SPI_TypeDef* SPI_ID);
 
-		void low_CS(void);
-		void hig_CS(void);
+		void low_CS();
+		void hig_CS();
 
-		uint8_t transfer_byte(uint8_t byte);
+		uint8_t transfer_Byte(uint8_t byte);
 };
 
 #endif
