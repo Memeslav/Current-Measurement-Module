@@ -1,6 +1,6 @@
 #include "UNIXTIME.h"
 
-void Unixtime_Increment(UNIXTIME* unixtime)
+void Unixtime_Increment(volatile UNIXTIME* unixtime)
 {
     unixtime->lo += 1;
 

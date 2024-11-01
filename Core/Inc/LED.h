@@ -1,5 +1,5 @@
-#ifndef LEDS_H_
-#define LEDS_H_
+#ifndef LED_H_
+#define LED_H_
 
 #include "stdbool.h"
 #include "stm32l053xx.h"

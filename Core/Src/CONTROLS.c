@@ -1,6 +1,6 @@
 #include "CONTROLS.h"
 
-void Global_Counter_Increment(CONTROLS* controls)
+void Global_Counter_Increment(volatile CONTROLS* controls)
 {
 	controls->global_counter_lo += 1;
 

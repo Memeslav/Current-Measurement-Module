@@ -10,6 +10,6 @@ typedef struct
 }
 UNIXTIME;
 
-void Unixtime_Increment(UNIXTIME* unixtime);
+void Unixtime_Increment(volatile UNIXTIME* unixtime);
 
 #endif

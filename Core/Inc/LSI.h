@@ -8,9 +8,8 @@
 
 typedef enum
 {
-	lsi_disabled	= 0,
+	lsi_failure		= 0,
 	lsi_enabled  	= 1,
-	lsi_failure		= 2,
 }
 LSI_STATUS;
 

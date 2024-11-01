@@ -8,9 +8,8 @@
 
 typedef enum
 {
-	lse_disabled	= 0,
+	lse_failure		= 0,
 	lse_enabled  	= 1,
-	lse_failure		= 2,
 }
 LSE_STATUS;
 
