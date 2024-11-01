@@ -13,6 +13,7 @@
 #include "MCU_DATA.h"
 #include "PO_VERSION.h"
 
+#include "IMP_ARCHIVE.h"
 
 #define NUMBER_OF_REGISTERS	  32
 
