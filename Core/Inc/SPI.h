@@ -2,6 +2,7 @@
 #define SPI_H_
 
 #include "stm32l053xx.h"
+#include "DMA.h"
 
 #define FRAM_TIMEOUT 1000
 

@@ -38,7 +38,7 @@ void SPI2_Enable(void)
 {
 	RCC->APB1ENR |= RCC_APB1ENR_SPI2EN;
 
-		SPI2->CR2  =  0;
+		SPI2->CR2  =  SPI_CR2_TXDMAEN | SPI_CR2_RXDMAEN;
 
 		SPI2->CR1  =  SPI_CR1_SSI |
 					  SPI_CR1_SPE |
