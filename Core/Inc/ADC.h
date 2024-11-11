@@ -16,7 +16,7 @@ typedef struct
 }
 ADC_RAW_DATA;
 
-void ADC_Measure(ADC_RAW_DATA* ADC_DATA);
+void ADC_Enable(void);
 
 extern volatile ADC_RAW_DATA ADC_DATA;
 

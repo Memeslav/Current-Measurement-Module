@@ -42,7 +42,7 @@ volatile REGISTERS registers =
 						},
 	//---------------------------------------------------------------
 	.po_version		= 	{
-							108			// po version
+							110			// po version
 						},
 };
 

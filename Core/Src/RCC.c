@@ -1,85 +1,40 @@
 #include "RCC.h"
 
+static void Disable_Backup_Write_Protection(void)
+{
+	RCC->APB1ENR |=  RCC_APB1ENR_PWREN;
+		PWR->CR  |=  PWR_CR_DBP;
+}
+
+static void Enable_Backup_Write_Protection (void)
+{
+		PWR->CR  &= ~PWR_CR_DBP;
+	RCC->APB1ENR &= ~RCC_APB1ENR_PWREN;
+}
+
 static void LSI_Enable(void)
 {
-	RCC->CSR |= RCC_CSR_LSION;
+    uint32_t timeout = LSI_LAUNCH_TIMEOUT;
+
+    RCC->CSR |= RCC_CSR_LSION;
+    while(!(RCC->CSR & RCC_CSR_LSIRDY) && timeout--){}
 }
 
 static void LSE_Enable(void)
 {
-	RCC->APB1ENR |= RCC_APB1ENR_PWREN;
+    uint32_t timeout = LSE_LAUNCH_TIMEOUT;
 
-		PWR->CR  |=  PWR_CR_DBP;
-		RCC->CSR |=  RCC_CSR_LSEDRV_Msk;
-		RCC->CSR |=  RCC_CSR_LSEON;
-		PWR->CR  &= ~PWR_CR_DBP;
-
-	RCC->APB1ENR &= ~RCC_APB1ENR_PWREN;
-}
-
-static void RTC_LSI_Select(void)
-{
-	RCC->CIER |= RCC_CIER_LSIRDYIE;
-	RCC->APB1ENR |=  RCC_APB1ENR_PWREN;
-
-		PWR->CR  |=  PWR_CR_DBP;
-		RCC->CSR |=  RCC_CSR_RTCRST_Msk;
-		RCC->CSR &= ~RCC_CSR_RTCRST_Msk;
-
-		RCC->CSR |=  RCC_CSR_RTCSEL_1;
-		PWR->CR  &= ~PWR_CR_DBP;
-
-	RCC->APB1ENR &= ~RCC_APB1ENR_PWREN;
-}
-
-static void RTC_LSE_Select(void)
-{
-	RCC->CIER |= RCC_CIER_LSERDYIE;
-	RCC->APB1ENR |=  RCC_APB1ENR_PWREN;
-
-		PWR->CR  |=  PWR_CR_DBP;
-		RCC->CSR |=  RCC_CSR_RTCRST_Msk;
-		RCC->CSR &= ~RCC_CSR_RTCRST_Msk;
-
-		RCC->CSR |=  RCC_CSR_RTCSEL_0;
-		PWR->CR  &= ~PWR_CR_DBP;
-
-	RCC->APB1ENR &= ~RCC_APB1ENR_PWREN;
-}
-
-void CSS_LSE_Enable(void)
-{
-	RCC->CIER |= RCC_CIER_CSSLSE;
-	RCC->CSR |= RCC_CSR_LSECSSON;
+	RCC->CSR |=	 RCC_CSR_LSEON;
+	while(!(RCC->CSR & RCC_CSR_LSERDY) && timeout--){}
 }
 
 void RCC_Enable(void)
 {
-	NVIC_SetPriority(RTC_IRQn, 0);
-	NVIC_EnableIRQ(RTC_IRQn);
-
 	LSI_Enable();
-	LSE_Enable();
 
-	RTC_LSE_Select();
-	CSS_LSE_Enable();
-}
+    Disable_Backup_Write_Protection();
 
-void RTC_IRQHandler(void)
-{
-	if(RCC_CIFR_CSSLSEF)
-	{
-		RCC->CICR = RCC_CICR_CSSLSEC;
-		RTC_LSI_Select();
-	}
-	else if(RCC_CIFR_LSERDYF)
-	{
-		RCC->CICR = RCC_CICR_LSERDYC;
-	}
-	else if(RCC_CIFR_LSIRDYF)
-	{
-		RCC->CICR = RCC_CICR_LSIRDYC;
-	}
+    LSE_Enable();
 
-	NVIC_ClearPendingIRQ(RTC_IRQn);
+    Enable_Backup_Write_Protection();
 }
