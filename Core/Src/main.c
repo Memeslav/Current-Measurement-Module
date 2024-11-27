@@ -2,6 +2,14 @@
 
 int main(void)
 {
+	RCC->IOPENR |= RCC_IOPENR_GPIOAEN;
+
+		GPIOA->MODER &= ~(GPIO_MODER_MODE8_Msk);
+		GPIOA->MODER |=  (GPIO_MODER_MODE8_1);
+
+		RCC->CFGR &= ~(RCC_CFGR_MCOSEL_Msk | RCC_CFGR_MCOPRE_Msk);
+		RCC->CFGR |= RCC_CFGR_MCOSEL_LSE;
+
 	Real_time_clock_enable();
 	LOAD_REGISTERS_FROM_FRAM();
 
