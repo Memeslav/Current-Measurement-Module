@@ -3,4 +3,6 @@
 
 #include "stm32l053xx.h"
 
+#include "ADC.h"
+
 #endif
