@@ -4,7 +4,8 @@
 #include "stm32l053xx.h"
 
 #define ADC_CHANNELS 	4
-#define SUPPLY_VOLTAGE 	4095
+#define ADC_OFFSET		3
+#define ADC_MAX 		4095
 
 typedef enum	{	DATA_READY = 0,
 					IN_PROCESS = 1,		}	ADC_STATES;
@@ -20,6 +21,7 @@ typedef struct	{	int16_t  INA333S;
 void ADC_Enable (void);
 void ADC_Measure(void);
 
+extern	ADC_STATES		ADC_STATE;
 extern	ADC_RAW_DATA	ADC_RAW;
 
 #endif
