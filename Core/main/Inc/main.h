@@ -3,6 +3,6 @@
 
 #include "stm32l053xx.h"
 
-#include "DPU.h"
+#include "MODULE_ADC.h"
 
 #endif

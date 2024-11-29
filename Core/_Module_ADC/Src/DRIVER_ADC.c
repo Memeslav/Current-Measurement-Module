@@ -1,13 +1,14 @@
-#include "ADC.h"
+#include "DRIVER_ADC.h"
 
-ADC_STATES		ADC_STATE 	= DATA_READY;
-ADC_RAW_DATA 	ADC_RAW 	= {0};
+ADC_STATE	adc_state	= DATA_READY;
 
-void ADC_Enable (void)
+struct adc_raw {ADC_Level_t data[ADC_CHANNELS];} adc_raw = {0};
+
+static void DMA_Init(void)
 {
 	RCC->AHBENR |= RCC_AHBENR_DMA1EN;
 
-		DMA1_Channel1->CMAR		 = (uint32_t)(&ADC_RAW);
+		DMA1_Channel1->CMAR		 = (uint32_t)(&adc_raw);
 		DMA1_Channel1->CPAR		 = (uint32_t)(&(ADC1->DR));
 		DMA1_Channel1->CNDTR	 = 	ADC_CHANNELS;
 		DMA1_Channel1->CCR		|=	DMA_CCR_HTIE;
@@ -15,9 +16,14 @@ void ADC_Enable (void)
 		DMA1_Channel1->CCR		|=	DMA_CCR_PL_Msk	| DMA_CCR_MINC;
 		DMA1_Channel1->CCR		|= 	DMA_CCR_CIRC	| DMA_CCR_EN;
 
+	NVIC_SetPriority(DMA1_Channel1_IRQn, 0);
+	NVIC_EnableIRQ(DMA1_Channel1_IRQn);
+}
+static void ADC_Init(void)
+{
 	RCC->APB2ENR |= RCC_APB2ENR_ADC1EN;
 
-		ADC1->CFGR2 	|= ADC_CFGR2_CKMODE_Msk | ADC_CFGR2_OVSR_Msk 	| ADC_CFGR2_OVSS_3 		| ADC_CFGR2_OVSE;
+		ADC1->CFGR2 	|= ADC_CFGR2_CKMODE_Msk	| ADC_CFGR2_OVSR_Msk 	| ADC_CFGR2_OVSS_3 		| ADC_CFGR2_OVSE;
 		ADC->CCR 		|= ADC_CCR_VREFEN 		| ADC_CCR_TSEN;
 		ADC1->CR 	 	|= ADC_CR_ADVREGEN		| ADC_CR_ADCAL;
 		while(ADC1->CR & ADC_CR_ADCAL);
@@ -25,25 +31,25 @@ void ADC_Enable (void)
 		ADC1->CFGR1 	|= ADC_CFGR1_AUTOFF 	| ADC_CFGR1_DMACFG 		| ADC_CFGR1_DMAEN;
 		ADC1->IER 		|= ADC_IER_EOSIE;
 		ADC1->CR 		|= ADC_CR_ADEN;
-
-	NVIC_SetPriority(DMA1_Channel1_IRQn, 0);
-	NVIC_EnableIRQ(DMA1_Channel1_IRQn);
 }
 
+void ADC_Enable	(void)	{DMA_Init();	ADC_Init();}
 void ADC_Measure(void)
 {
-	if(ADC_STATE == IN_PROCESS) {return;}
-	ADC_STATE = IN_PROCESS;
+	if(adc_state == IN_PROCESS) {return;}
+	adc_state = IN_PROCESS;
 	ADC1->CR |= ADC_CR_ADSTART;
 }
+
+ADC_Level_t ADC_Get_Channel	(ADC_Channel channel)	{return adc_raw.data[channel];}
+ADC_STATE 	ADC_Get_State	(void)					{return adc_state;}
 
 void DMA1_Channel1_IRQHandler(void)
 {
 	if((DMA1->ISR & DMA_ISR_TCIF1) == DMA_ISR_TCIF1)
 	{
-		ADC_RAW.CLR_SIG = ADC_RAW.INA333S - ADC_RAW.TPR3312;
 		DMA1->IFCR |= DMA_IFCR_CHTIF1;
-		ADC_STATE = DATA_READY;
+		adc_state = DATA_READY;
 	}
 	NVIC_ClearPendingIRQ(DMA1_Channel1_IRQn);
 }
