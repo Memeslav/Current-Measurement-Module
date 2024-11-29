@@ -5,12 +5,15 @@
 #define VDD_CALIB 			((uint16_t)(300))
 #define VDD_APPLI 			((uint16_t)(330))
 
+float koef = 12;
+float volt_per_level = 0;
+float smech = 22.9;
+
 DPU_RAW_DATA DPU_RAW = {0};
 
 static void Сalculate_PWR_SPL(void)
 {
-	DPU_RAW.PWR_SPL = INTERNAL_REF * ADC_MAX;
-	DPU_RAW.PWR_SPL /= ADC_RAW.INT_REF;
+	DPU_RAW.PWR_SPL = (INTERNAL_REF * ADC_MAX) / ADC_RAW.INT_REF;
 }
 
 static void Сalculate_TEMPERC(void)
@@ -31,7 +34,9 @@ static void Сalculate_TEMPERC(void)
 
 static void Сalculate_INA333S(void)
 {
-	DPU_RAW.INA333S = ((ADC_RAW.INA333S * (DPU_RAW.PWR_SPL/ADC_MAX)) / 12);
+	volt_per_level = DPU_RAW.PWR_SPL/ADC_MAX;
+	DPU_RAW.INA333S = 1000 * (((ADC_RAW.CLR_SIG) * volt_per_level) / koef) - smech;
+	//DPU_RAW.INA333S = (100000 * ((DPU_RAW.PWR_SPL/ADC_MAX) * (1.0*ADC_RAW.INA333S)/12));
 }
 
 static float Level_to_Volts(int adc_data)
@@ -52,8 +57,9 @@ void DPU_Measure(void)
 
 	Сalculate_PWR_SPL();
 	Сalculate_TEMPERC();
+	Сalculate_INA333S();
 
-	DPU_RAW.INA333S = Level_to_Volts(ADC_RAW.INA333S);
+	//DPU_RAW.INA333S = Level_to_Volts(ADC_RAW.INA333S);
 	DPU_RAW.INT_REF = Level_to_Volts(ADC_RAW.INT_REF);
 	DPU_RAW.TPR3312 = Level_to_Volts(ADC_RAW.TPR3312);
 }
