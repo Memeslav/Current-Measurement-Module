@@ -33,16 +33,16 @@ static void ADC_Init(void)
 		ADC1->CR 		|= ADC_CR_ADEN;
 }
 
-void ADC_Enable	(void)	{DMA_Init();	ADC_Init();}
-void ADC_Measure(void)
+void Driver_ADC_Enable	(void)	{DMA_Init();	ADC_Init();}
+void Driver_ADC_Measure	(void)
 {
 	if(adc_state == IN_PROCESS) {return;}
 	adc_state = IN_PROCESS;
 	ADC1->CR |= ADC_CR_ADSTART;
 }
 
-ADC_Level_t ADC_Get_Channel	(ADC_Channel channel)	{return adc_raw.data[channel];}
-ADC_STATE 	ADC_Get_State	(void)					{return adc_state;}
+ADC_Level_t Driver_ADC_Get_Channel	(ADC_Channel channel)	{return adc_raw.data[channel];}
+ADC_STATE 	Driver_ADC_Get_State	(void)					{return adc_state;}
 
 void DMA1_Channel1_IRQHandler(void)
 {

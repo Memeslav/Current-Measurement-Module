@@ -12,7 +12,7 @@ int main(void)
 	RCC->ICSCR &=~RCC_ICSCR_MSIRANGE_Msk;
 	RCC->ICSCR |= RCC_ICSCR_MSIRANGE_6;
 
-	ADC_Enable();
+	Driver_ADC_Enable();
 
 	RCC->IOPENR |= RCC_IOPENR_GPIOBEN;
 
@@ -24,20 +24,20 @@ int main(void)
     {
     	for(int i = 0; i < 500000; i++){}
 
-    	ADC_Measure();
+    	Driver_ADC_Measure();
 
-    	while(ADC_Get_State() == IN_PROCESS){}
+    	while(Driver_ADC_Get_State() == IN_PROCESS){}
 
     	for(int i = 0; i < ADC_CHANNELS; i++)
     	{
-    		data[i] = ADC_Get_Channel(i);
+    		data[i] = Driver_ADC_Get_Channel(i);
     	}
 
-    	temp = Calculate_Temperature(ADC_Get_Channel(TEMPERC));
+    	temp = Calculate_Temperature(Driver_ADC_Get_Channel(TEMPERC));
 
     	for(int i = 0; i < 3; i++)
     	{
-    		data_V[i] = Calculate_Volt(ADC_Get_Channel(i));
+    		data_V[i] = Calculate_Volt(Driver_ADC_Get_Channel(i));
     	}
     }
 }
