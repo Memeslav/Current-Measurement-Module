@@ -1,4 +1,4 @@
-#include "TEMPERATURE.h"
+#include "../../Module_ADC/Inc/TEMPERATURE.h"
 
 #define TEMP130_CAL_ADDR 	((uint16_t*)((uint32_t)0x1FF8007E))
 #define TEMP30_CAL_ADDR  	((uint16_t*)((uint32_t)0x1FF8007A))

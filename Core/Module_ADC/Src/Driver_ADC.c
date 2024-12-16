@@ -1,14 +1,13 @@
-#include "DRIVER_ADC.h"
+#include "Driver_ADC.h"
 
-ADC_STATE	adc_state	= DATA_READY;
-
-struct adc_raw {ADC_Level_t data[ADC_CHANNELS];} adc_raw = {0};
+ADC_STATE	adc_state				= DATA_READY;
+ADC_Level_t channels[ADC_CHANNELS] 	= {0};
 
 static void DMA_Init(void)
 {
 	RCC->AHBENR |= RCC_AHBENR_DMA1EN;
 
-		DMA1_Channel1->CMAR		 = (uint32_t)(&adc_raw);
+		DMA1_Channel1->CMAR		 = (uint32_t)(&channels);
 		DMA1_Channel1->CPAR		 = (uint32_t)(&(ADC1->DR));
 		DMA1_Channel1->CNDTR	 = 	ADC_CHANNELS;
 		DMA1_Channel1->CCR		|=	DMA_CCR_HTIE;
@@ -41,15 +40,17 @@ void Driver_ADC_Measure	(void)
 	ADC1->CR |= ADC_CR_ADSTART;
 }
 
-ADC_Level_t Driver_ADC_Get_Channel	(ADC_Channel channel)	{return adc_raw.data[channel];}
-ADC_STATE 	Driver_ADC_Get_State	(void)					{return adc_state;}
+void 		Driver_ADC_Get_All_Channels	(ADC_Level_t *data)		{for (int i = 0; i < ADC_CHANNELS; i++) {data[i] = channels[i];}}
+
+ADC_Level_t Driver_ADC_Get_Channel		(ADC_Channel channel)	{return channels[channel];}
+ADC_STATE 	Driver_ADC_Get_State		(void)					{return adc_state;}
 
 void DMA1_Channel1_IRQHandler(void)
 {
-	if((DMA1->ISR & DMA_ISR_TCIF1) == DMA_ISR_TCIF1)
-	{
-		DMA1->IFCR |= DMA_IFCR_CHTIF1;
-		adc_state = DATA_READY;
-	}
-	NVIC_ClearPendingIRQ(DMA1_Channel1_IRQn);
+    if (DMA1->ISR & DMA_ISR_TCIF1)
+    {
+        DMA1->IFCR |= DMA_IFCR_CHTIF1;
+        adc_state = DATA_READY;
+    }
+    NVIC_ClearPendingIRQ(DMA1_Channel1_IRQn);
 }

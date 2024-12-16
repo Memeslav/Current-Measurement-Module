@@ -1,4 +1,4 @@
-#include "VOLTAGE.h"
+#include "../../Module_ADC/Inc/VOLTAGE.h"
 
 #define INTERNAL_REF 1.224
 
