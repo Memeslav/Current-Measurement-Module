@@ -16,11 +16,9 @@ typedef enum	{	INA333S = 0,
 typedef enum	{	IN_PROCESS = 0,
 					DATA_READY = 1,	}	ADC_STATE;
 
-ADC_Level_t	Driver_ADC_Get_Channel	(ADC_Channel channel);
-ADC_STATE 	Driver_ADC_Get_State	(void);
-
-void Driver_ADC_Get_All_Channels	(ADC_Level_t *data);
-
+ADC_Level_t	Driver_ADC_Get_Channel		(ADC_Channel channel);
+ADC_STATE 	Driver_ADC_Get_State		(void);
+void Driver_ADC_Get_All_Channels		(ADC_Level_t *data);
 void Driver_ADC_Enable	(void);
 void Driver_ADC_Measure	(void);
 

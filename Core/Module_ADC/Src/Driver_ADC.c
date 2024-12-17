@@ -41,7 +41,6 @@ void Driver_ADC_Measure	(void)
 }
 
 void 		Driver_ADC_Get_All_Channels	(ADC_Level_t *data)		{for (int i = 0; i < ADC_CHANNELS; i++) {data[i] = channels[i];}}
-
 ADC_Level_t Driver_ADC_Get_Channel		(ADC_Channel channel)	{return channels[channel];}
 ADC_STATE 	Driver_ADC_Get_State		(void)					{return adc_state;}
 
