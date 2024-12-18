@@ -14,17 +14,34 @@ typedef struct
 {
 	Register_32b_t	unixtime;
 
-	CURRENTS 		currents;
-	CONTROLS 		controls;
-	IMPULSE			impulse;
-	SETTINGS		settings;
+	Register_16b_t	maximal_current;
+	Register_16b_t	average_current;
+	Register_16b_t	minimal_current;
 
-	Register_32b_t	reserved;
+	Register_32b_t 	global_impulse_counter;
+	Register_32b_t 	last_read_impulse_number;
+	Register_32b_t 	show_impulse_number;
+
+	Register_32b_t	impulse_number;
+	Register_32b_t	impulse_time_start;
+	Register_32b_t	impulse_duration;
+	Register_16b_t	impulse_maximal_amplitude;
+	Register_16b_t	impulse_average_amplitude;
+
+	Register_32b_t	minimal_impulse_width;
+	Register_16b_t	measure_period;
+	Register_16b_t	trigger_level;
+	Register_16b_t  hysteresis;
+
+	Register_32b_t 	reserved;
+
 	Register_16b_t	calibration;
 
-	MCU_DATA 		mcu_data;
+	Register_16b_t	lsi_frequency;
+	Register_16b_t	mcu_temperature;
+	Register_32b_t 	msi_frequency;
 
-	Register_16b_t	po_version;
+	Register_16b_t	firmware_version;
 }
 REGISTERS;
 

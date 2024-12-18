@@ -1,11 +1,7 @@
 #ifndef MAIN_H_
 #define MAIN_H_
 
-#include "stm32l053xx.h"
-
-#include "Registers.h"
-
-#include "Register.h"
+#include "Memory.h"
 
 #include "Module_ADC.h"
 #include "Module_FRAM.h"
