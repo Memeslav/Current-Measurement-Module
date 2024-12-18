@@ -7,6 +7,6 @@ typedef struct
 {
 	uint16_t value;
 }
-CALIBRATION;
+Calibration_t;
 
 #endif

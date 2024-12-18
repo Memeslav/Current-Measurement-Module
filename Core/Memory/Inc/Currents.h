@@ -11,6 +11,9 @@ typedef struct
 }
 Currents_t;
 
-static	inline	void	Currents_Clear	(Currents_t* currents)	{*currents = (Currents_t){0};}
+static inline void Currents_Clear (Currents_t* currents)
+{
+	*currents = (Currents_t){0};
+}
 
 #endif

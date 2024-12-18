@@ -7,7 +7,7 @@
 
 typedef struct
 {
-	IMPULSE impulse[IMPULSE_ARCHIVE_SIZE];
+	Impulse_t impulse[IMPULSE_ARCHIVE_SIZE];
 }
 IMPULSE_ARCHIVE;
 

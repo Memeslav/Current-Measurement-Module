@@ -17,8 +17,11 @@ typedef struct
 	int16_t max_amp;
 	int16_t ave_amp;
 }
-IMPULSE;
+Impulse_t;
 
-static	inline	void	Impulse_Clear	(IMPULSE* impulse)	{*impulse = (IMPULSE){0};}
+static inline void Impulse_Clear (Impulse_t* impulse)
+{
+	*impulse = (Impulse_t){0};
+}
 
 #endif

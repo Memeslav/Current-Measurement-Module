@@ -5,9 +5,10 @@
 
 typedef struct
 {
-	Register_16b_t	lsi_freq;
-	Register_16b_t	mcu_temperature;
-	Register_32b_t	msi_freq;
+	uint16_t lsi_freq;
+	int16_t  mcu_temperature;
+	uint16_t msi_freq_lo;
+	uint16_t msi_freq_hi;
 }
 MCU_DATA;
 
