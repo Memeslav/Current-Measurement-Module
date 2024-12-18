@@ -11,6 +11,4 @@ typedef struct
 }
 IMPULSE_ARCHIVE;
 
-void Save_Impulse_to_Archive(IMPULSE* impulse);
-
 #endif
