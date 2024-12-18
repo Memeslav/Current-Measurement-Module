@@ -1,14 +1,15 @@
 #include "main.h"
 
+Register_32b_t boop = {0};
+uint32_t meme = 0;
+
 int main(void)
 {
-	Module_ADC_Enable();
+	meme = Register_32b_Get(&boop);
 
     while (1)
     {
-    	for(int i = 0; i < 500; i++);
-
-    	Module_ADC_Measure();
-    	Module_ADC_Data_Processing();
+    	Register_32b_Increment(&boop);
+    	meme = Register_32b_Get(&boop);
     }
 }
