@@ -5,13 +5,12 @@
 
 typedef struct
 {
-	uint16_t lsi_freq;
-	int16_t  mcu_temperature;
-	uint16_t msi_freq_lo;
-	uint16_t msi_freq_hi;
+	Register_16b_t lsi_freq;
+	Register_16b_t mcu_temperature;
+	Register_32b_t msi_freq;
 }
-MCU_DATA;
+MCU_data_t;
 
-static	inline	void	MCU_data_Clear	(MCU_DATA* mcu_data)	{*mcu_data = (MCU_DATA){0};}
+static	inline	void	MCU_data_Clear	(MCU_data_t* mcu_data)	{*mcu_data = (MCU_data_t){0};}
 
 #endif

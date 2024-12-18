@@ -1,21 +1,17 @@
 #ifndef IMPULSE_H_
 #define IMPULSE_H_
 
-#include "stm32l053xx.h"
+#include "Register.h"
 
 typedef struct
 {
-	uint16_t num_lo;
-	uint16_t num_hi;
+	Register_32b_t number;
 
-	uint16_t start_time_lo;
-	uint16_t start_time_hi;
+	Register_32b_t start_time;
+	Register_32b_t duration;
 
-	uint16_t duration_lo;
-	uint16_t duration_hi;
-
-	int16_t max_amp;
-	int16_t ave_amp;
+	Register_16b_t max_amp;
+	Register_16b_t ave_amp;
 }
 Impulse_t;
 

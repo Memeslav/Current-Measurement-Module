@@ -1,13 +1,13 @@
 #ifndef CURRENTS_H_
 #define CURRENTS_H_
 
-#include "stm32l053xx.h"
+#include "Register.h"
 
 typedef struct
 {
-	int16_t max;
-	int16_t ave;
-	int16_t min;
+	Register_16b_t max;
+	Register_16b_t ave;
+	Register_16b_t min;
 }
 Currents_t;
 

@@ -9,6 +9,18 @@ typedef struct
 {
 	Impulse_t impulse[IMPULSE_ARCHIVE_SIZE];
 }
-IMPULSE_ARCHIVE;
+Impulse_archive_t;
+
+static inline void Impulse_Archive_Set_Impulse(volatile Impulse_archive_t* archive, const Impulse_t* impulse)
+{
+	uint32_t index = Register_32b_Get(&impulse->number);
+    archive->impulse[index % IMPULSE_ARCHIVE_SIZE] = *impulse;
+}
+
+static inline const volatile Impulse_t* Impulse_Archive_Get_Impulse(const volatile Impulse_archive_t* archive, uint32_t number)
+{
+	uint32_t index = number % IMPULSE_ARCHIVE_SIZE;
+	return &archive->impulse[index];
+}
 
 #endif

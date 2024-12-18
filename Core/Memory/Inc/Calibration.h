@@ -1,12 +1,8 @@
 #ifndef CALIBRATION_H_
 #define CALIBRATION_H_
 
-#include "stm32l053xx.h"
+#include "Registers.h"
 
-typedef struct
-{
-	uint16_t value;
-}
-Calibration_t;
+typedef Register_16b_t Calibration_t;
 
 #endif
