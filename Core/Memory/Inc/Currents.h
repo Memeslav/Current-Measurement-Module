@@ -1,16 +1,16 @@
 #ifndef CURRENTS_H_
 #define CURRENTS_H_
 
-#include "Register.h"
+#include "stm32l053xx.h"
 
 typedef struct
 {
-	Register_16b_t max;
-	Register_16b_t ave;
-	Register_16b_t min;
+	int16_t max;
+	int16_t ave;
+	int16_t min;
 }
-CURRENTS;
+Currents_t;
 
-static	inline	void	Currents_Clear	(CURRENTS* currents)	{*currents = (CURRENTS){0};}
+static	inline	void	Currents_Clear	(Currents_t* currents)	{*currents = (Currents_t){0};}
 
 #endif

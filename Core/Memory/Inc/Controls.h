@@ -1,14 +1,20 @@
 #ifndef CONTROLS_H_
 #define CONTROLS_H_
 
-#include "Register.h"
+#include "stm32l053xx.h"
+
+typedef	union	{struct{uint16_t low; uint16_t high;}; uint32_t full;} Counter_t;
+
+static	inline	uint32_t	Counter_32b_Get			(const Counter_t* counter) 				{return counter->full;}
+static	inline	void 		Counter_32b_Set			(Counter_t* counter, uint32_t value) 	{counter->full = value;}
+static	inline	void		Counter_32b_Increment	(Counter_t* counter) 					{counter->full++;}
 
 typedef struct
 {
-	Register_32b_t global_counter;
-	Register_32b_t last_readed;
-	Register_32b_t show_pulse;
+	Counter_t global_counter;
+	Counter_t last_read;
+	Counter_t show_pulse_num;
 }
-CONTROLS;
+Controls_t;
 
 #endif
