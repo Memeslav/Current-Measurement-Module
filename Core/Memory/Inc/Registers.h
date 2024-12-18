@@ -1,69 +1,31 @@
 #ifndef REGISTERS_H_
 #define REGISTERS_H_
 
+#include <Impulse.h>
 #include "Register.h"
 
-typedef enum
-{
-	UNIXTIME,
-	//=========
-	MAX_CURR,
-	AVE_CURR,
-	MIN_CURR,
-	//=========
-	GLBL_CNT,
-	LST_READ,
-	SHW_PULS,
-	//=========
-	PULS_NUM,
-	TIM_STRT,
-	CONTINIS,
-	MAX_AMPL,
-	AVE_AMPL,
-	//=========
-	MIN_WIDT,
-	MEAS_PER,
-	TRIG_LVL,
-	HSTERSIS,
-	//=========
-	RESERVED_0,
-	RESERVED_1,
-	//=========
-	CALIB_PR,
-	//=========
-	LSI_FREQ,
-	MCU_TEMP,
-	//=========
-	MSI_FREQ,
-	//=========
-	PROG_VER,
-}
-REGISTER_ADDRESS;
+#include "Currents.h"
+#include "Controls.h"
+
+#include "Settings.h"
+#include "MCU_data.h"
 
 typedef struct
 {
-	Register_32b_t unixtime;
-}
-REGISTERS;
+	Register_32b_t	unixtime;
 
-/*
-typedef struct
-{
-	UNIXTIME 		unixtime;
 	CURRENTS 		currents;
 	CONTROLS 		controls;
-	IMPULSE	 		impulse;
-	SETTINGS 		settings;
-	RESERVE			reserve;
-	CALIBRATION		calibration;
-	MCU_DATA		mcu_data;
-	PO_VERSION		po_version;
+	IMPULSE			impulse;
+	SETTINGS		settings;
+
+	Register_32b_t	reserved;
+	Register_16b_t	calibration;
+
+	MCU_DATA 		mcu_data;
+
+	Register_16b_t	po_version;
 }
 REGISTERS;
-
-extern volatile REGISTERS registers;
-extern uint16_t* regs;
-*/
-
 
 #endif

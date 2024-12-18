@@ -1,7 +1,7 @@
 #ifndef IMP_ARCHIVE_H_
 #define IMP_ARCHIVE_H_
 
-#include "IMP.h"
+#include <Impulse.h>
 
 #define IMPULSE_ARCHIVE_SIZE 128
 
