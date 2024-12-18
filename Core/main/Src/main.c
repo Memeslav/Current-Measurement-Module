@@ -13,7 +13,7 @@ Impulse_t imp = {0};
 int main(void)
 {
     Memory_Init();
-
+\
     size = sizeof(registers);
 
     for(int i = 0; i < 32; i++)
