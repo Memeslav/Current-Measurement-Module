@@ -65,8 +65,6 @@ void RTC_IRQHandler(void)
 {
 	if (RTC->ISR & RTC_ISR_WUTF)
 	{
-		GPIOA->ODR ^= GPIO_ODR_OD8;
-
 		RTC->ISR &= ~RTC_ISR_WUTF;
 		EXTI->PR =   EXTI_PR_PIF20;
 	}

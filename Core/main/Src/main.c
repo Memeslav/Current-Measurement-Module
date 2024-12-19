@@ -3,14 +3,14 @@
 void sleeper(void)
 {
 	RCC->APB1ENR |= RCC_APB1ENR_PWREN;
-		PWR->CR  &= ~PWR_CR_PDDS;
+
+		PWR->CR &= ~PWR_CR_PDDS;
 		PWR->CSR &= ~PWR_CSR_WUF;
 
-		EXTI->PR = 0;
+	    EXTI->PR = 0;
+	    SCB->SCR |= 1 << SCB_SCR_SLEEPDEEP_Pos;
 
-		SCB->SCR |= 1 << SCB_SCR_SLEEPDEEP_Pos;
-
-		__WFE();
+	    __SEV(); __WFE(); __WFE();
 }
 
 int main(void)
@@ -27,6 +27,8 @@ int main(void)
 
     while (1)
     {
+		GPIOA->ODR ^= GPIO_ODR_OD8;
+
     	sleeper();
     }
 }
