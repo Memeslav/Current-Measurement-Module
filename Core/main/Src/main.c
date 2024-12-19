@@ -1,31 +1,5 @@
 #include "main.h"
 
-void deep_sleep(void)
-{
-    // Включаем питание для периферийных устройств
-    RCC->APB1ENR |= RCC_APB1ENR_PWREN;  // Включаем питание для Power Control (PWR)
-
-    // Разрешаем доступ к регистрам PWR для настройки сна
-    PWR->CR |= PWR_CR_DBP;  // Разрешаем доступ к регистрам PWR
-
-    // Убираем флаг пробуждения
-    PWR->CSR &= ~PWR_CSR_WUF;
-
-    // Переводим контроллер в режим Standby
-    PWR->CR |= PWR_CR_PDDS;  // Включаем режим Standby (глубокий сон)
-    PWR->CR |= PWR_CR_CWUF;  // Убираем флаг пробуждения
-
-    // Устанавливаем флаг SLEEPDEEP для перехода в глубокий режим сна
-    SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
-
-    // Ожидание события, что приводит к пробуждению (например, прерывание)
-    __SEV();   // Генерация события
-    __WFE();   // Ожидание события
-    __WFE();
-
-    // Контроллер "спит" в этом месте до тех пор, пока не произойдёт событие пробуждения
-}
-
 int main(void)
 {
 	RCC->IOPENR |= RCC_IOPENR_GPIOAEN;
@@ -35,15 +9,18 @@ int main(void)
 
     Memory_Init();
 
-    Driver_RTC_Enable();
-    Driver_RTC_Set_WakeUp_Timer(1);
+    Module_RTC_Enable();
+    Module_RTC_Periodic_WakeUp(Register_16b_Get(&registers.settings.measure_period));
+
+    Module_PKM_Enable();
 
     while (1)
     {
-		GPIOA->ODR ^= GPIO_ODR_OD8;
+    	//ждём разрешение на начало измерений
 
-		for(int i = 0; i < 1000; i++);
+    	Module_RTC_Watchdog_Update();
+    	//Register_32b_Increment(&registers.unixtime);
 
-		deep_sleep();
+    	//Если ножка зажата, то в режим сна не уходим
     }
 }

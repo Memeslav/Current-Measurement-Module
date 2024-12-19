@@ -5,7 +5,6 @@
 #define 	RTC_KEY_OFF			0xFF
 #define 	RTC_COUNT_SHIFT		0x01
 
-
 static void RTC_Init(void)
 {
 	RCC->APB1ENR |=  RCC_APB1ENR_PWREN;
@@ -52,7 +51,7 @@ void Driver_RTC_Set_WakeUp_Timer(uint16_t period_s)
 		EXTI->RTSR |= EXTI_RTSR_RT20;
 		EXTI->IMR  |= EXTI_IMR_IM20;
 
-		RTC->WPR  = 0x00;
+		RTC->WPR  = RTC_KEY_OFF;
 
 		RCC->APB1ENR &= ~RCC_APB1ENR_PWREN;
 
@@ -60,11 +59,12 @@ void Driver_RTC_Set_WakeUp_Timer(uint16_t period_s)
 	NVIC_EnableIRQ(RTC_IRQn);
 }
 
-
 void RTC_IRQHandler(void)
 {
 	if (RTC->ISR & RTC_ISR_WUTF)
 	{
+		GPIOA->ODR ^= GPIO_ODR_OD8;
+
 		RTC->ISR &= ~RTC_ISR_WUTF;
 		EXTI->PR =   EXTI_PR_PIF20;
 	}
