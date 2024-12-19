@@ -1,4 +1,5 @@
 #include "Module_PKM.h"
+#include <string.h>
 
 uint16_t* regs = (uint16_t*)&registers;
 
@@ -29,8 +30,17 @@ void EXTI4_15_IRQHandler(void)
     {
         if (!(GPIOA->IDR & GPIO_IDR_ID4))
         {
-            buffer = (PKM_BUFFER) {0};
+        	GPIOA->MODER |=	 GPIO_MODER_MODE6_Msk;
+			GPIOA->MODER &=	~GPIO_MODER_MODE6_0;
+
+        	memset(&buffer, 0, sizeof(buffer));
             CRC_Reset();
+        }
+        else
+        {
+			GPIOA->MODER |=	 GPIO_MODER_MODE6_Msk;
+			GPIOA->MODER &=	~GPIO_MODER_MODE6_1;
+			GPIOA->BSRR |= GPIO_BSRR_BR_6;
         }
 
         EXTI->PR |= EXTI_PR_PIF4;
@@ -57,10 +67,10 @@ static void WriteDataFromPKM(void)
 
     for (uint8_t i = 0; i < buffer.index; i++)
     {
-        *((__IO uint16_t *)&CRC->DR) = buffer.data[i];
+    	CRC_Load(buffer.data[i]);
     }
 
-    if (__REV16(CRC->DR) == buffer.data[buffer.index])
+    if (__REV16(CRC_Get_Result()) == buffer.data[buffer.index])
     {
         for (uint8_t i = 0; i < buffer.register_count; i++)
         {
@@ -75,13 +85,13 @@ static void LoadDataToPKM(void)
     {
         case 0:
 
-            *((__IO uint16_t *)&CRC->DR) = buffer.start_address;
+        	CRC_Load(buffer.start_address);
             SPI1->DR = buffer.start_address;
             break;
 
         case 1:
 
-            *((__IO uint16_t *)&CRC->DR) = __REV16(buffer.register_count);
+        	CRC_Load(__REV16(buffer.register_count));
             SPI1->DR = __REV16(buffer.register_count);
             break;
 
@@ -89,13 +99,13 @@ static void LoadDataToPKM(void)
 
             if (buffer.index < (2 + buffer.register_count))
             {
-                *((__IO uint16_t *)&CRC->DR) = __REV16(regs[buffer.start_address]);
+                CRC_Load(__REV16(regs[buffer.start_address]));
                 SPI1->DR = __REV16(regs[buffer.start_address]);
                 buffer.start_address++;
             }
             else if (buffer.index == (2 + buffer.register_count))
             {
-                SPI1->DR = __REV16(CRC->DR);
+                SPI1->DR = __REV16(CRC_Get_Result());
             }
             break;
     }
@@ -109,7 +119,6 @@ void SPI1_IRQHandler(void)
 
         if (buffer.index == 0) Get_Command_and_Address();
         if (buffer.index == 1) Get_Register_Count();
-
 
         if (buffer.command)
         {

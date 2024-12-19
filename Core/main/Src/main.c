@@ -18,7 +18,10 @@ int main(void)
     {
     	//ждём разрешение на начало измерений
 
+    	Watchdog_Update();
+
     	Module_RTC_Watchdog_Update();
+
     	//Register_32b_Increment(&registers.unixtime);
 
     	//Если ножка зажата, то в режим сна не уходим

@@ -1,4 +1,5 @@
 #include "Driver_RTC.h"
+#include "Memory.h"
 
 #define 	RTC_KEY_0 			0xCA
 #define 	RTC_KEY_1 			0x53
@@ -64,9 +65,12 @@ void RTC_IRQHandler(void)
 	if (RTC->ISR & RTC_ISR_WUTF)
 	{
 		GPIOA->ODR ^= GPIO_ODR_OD8;
+		//IWDG->KR = 0x0000AAAA;
+
+		Register_32b_Increment(&registers.unixtime);
 
 		RTC->ISR &= ~RTC_ISR_WUTF;
-		EXTI->PR =   EXTI_PR_PIF20;
+		EXTI->PR |= EXTI_PR_PIF20;
 	}
 
 	NVIC_ClearPendingIRQ(RTC_IRQn);

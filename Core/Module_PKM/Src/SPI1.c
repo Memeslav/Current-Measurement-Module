@@ -18,7 +18,7 @@ void SPI1_Enable (void)
 		EXTI->RTSR   |=   EXTI_RTSR_RT4;
 		EXTI->FTSR   |=   EXTI_FTSR_FT4;
 
-	NVIC_SetPriority(EXTI4_15_IRQn, 0);
+	NVIC_SetPriority(EXTI4_15_IRQn, 2);
 	NVIC_EnableIRQ(EXTI4_15_IRQn);
 
     RCC->APB2ENR  |= RCC_APB2ENR_SPI1EN;
@@ -30,6 +30,6 @@ void SPI1_Enable (void)
 				  |  SPI_CR1_DFF
 				  |  SPI_CR1_SPE;
 
-	NVIC_SetPriority(SPI1_IRQn, 0);
+	NVIC_SetPriority(SPI1_IRQn, 3);
 	NVIC_EnableIRQ(SPI1_IRQn);
 }
