@@ -5,7 +5,7 @@ void Module_FRAM_Enable(void)
 	SPI2_Enable();
 }
 
-void FRAM_READ (uint16_t address,
+void FRAM_read (uint16_t address,
 				uint16_t data_size,
 				uint8_t* data)
 {
@@ -23,7 +23,7 @@ void FRAM_READ (uint16_t address,
 	SPI2_CS_H();
 }
 
-void FRAM_WRITE(uint16_t address,
+void FRAM_write(uint16_t address,
 				uint16_t data_size,
 				uint8_t* data)
 {

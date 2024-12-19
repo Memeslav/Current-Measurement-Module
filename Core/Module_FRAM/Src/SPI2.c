@@ -24,9 +24,6 @@ void SPI2_Enable(void)
 						  GPIO_MODER_MODE15_1;
 }
 
-void SPI2_CS_L(void)	{GPIOB->BSRR |= GPIO_BSRR_BR_12;}
-void SPI2_CS_H(void)	{GPIOB->BSRR |= GPIO_BSRR_BS_12;}
-
 uint8_t SPI2_Send_Byte(uint8_t data)
 {
 	while (!(SPI2->SR & SPI_SR_TXE));
