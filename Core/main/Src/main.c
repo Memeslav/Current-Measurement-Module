@@ -1,26 +1,17 @@
 #include "main.h"
 
+#include "Impulse_handler.h"
+
 int main(void)
 {
-	RCC->IOPENR |= RCC_IOPENR_GPIOAEN;
+	Memory_Init();
 
-		GPIOA->MODER &= ~GPIO_MODER_MODE8_Msk;
-		GPIOA->MODER |= GPIO_MODER_MODE8_0;
-
-    Memory_Init();
-
-    Module_RTC_Enable();
-    Module_RTC_Periodic_WakeUp(Register_16b_Get(&registers.settings.measure_period));
-
-    Module_PKM_Enable();
-    Module_ADC_Enable();
+	Impulse_handler_settings_set(	Register_32b_Get(&registers.settings.minimal_impulse_duration),
+									Register_16b_Get(&registers.settings.trigger_level),
+									Register_16b_Get(&registers.settings.hysteresis));
 
     while (1)
     {
-    	//ждём разрешение на начало измерений
 
-    	Module_RTC_Watchdog_Update();
-
-    	//Если ножка зажата, то в режим сна не уходим
     }
 }

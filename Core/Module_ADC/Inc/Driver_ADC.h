@@ -1,12 +1,10 @@
 #ifndef ADC_H_
 #define ADC_H_
 
-#include "stm32l053xx.h"
+#include "ADC_Level.h"
 
 #define ADC_CHANNELS	4
 #define ADC_MAX_LEVEL	4095
-
-typedef int16_t	ADC_Level_t;
 
 typedef enum	{	INA333S = 0,
 					TPR3312 = 1,
