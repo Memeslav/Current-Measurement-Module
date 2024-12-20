@@ -1,39 +1,16 @@
 #ifndef IMPULSE_HANDLER_H_
 #define IMPULSE_HANDLER_H_
 
-#include "Impulse.h"
-#include "Trigger.h"
+#include "stm32l053xx.h"
 
-typedef struct
-{
-	Trigger_t 	trigger;
-	uint32_t 	minimal_impulse_duration;
-}
-Impulse_handler_settings_t;
+typedef enum	{	IMPULSE_NOT_DETECTED 	= 0,
+					IMPULSE_RECORDING		= 1,
+					IMPULSE_RECORDED		= 2,	}	Impulse_handler_state;
 
-void Impulse_handler_settings_set(uint32_t minimal_duration, uint16_t trigger, uint16_t hysteresis);
+typedef struct	{	uint64_t number_of_measurements;
+					uint64_t sum_of_all_measurements;
 
-typedef enum
-{
-	OUTSIDE_THE_IMPULSE,
-	INSIDE_THE_IMPULSE,
-	IMPULSE_IS_READY,
-}
-Impulse_measure_status;
-
-typedef struct
-{
-	Impulse_measure_status status;
-
-	int64_t average_currents_sum;
-	int64_t number_of_measurements;
-
-	Impulse_t impulse;
-}
-Impulse_handler_buffer_t;
-
-static inline void Impulse_handler_buffer_clear(Impulse_handler_buffer_t* buffer) {*buffer = (Impulse_handler_buffer_t){0};}
-
-
+					uint16_t maximal;
+					uint16_t minimal;	}	 Impulse_handler_buffer_t;
 
 #endif
