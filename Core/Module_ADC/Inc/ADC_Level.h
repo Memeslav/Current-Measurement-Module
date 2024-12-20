@@ -3,6 +3,6 @@
 
 #include "stm32l053xx.h"
 
-typedef int16_t	ADC_Level_t;
+typedef uint16_t ADC_Level_t;
 
 #endif
