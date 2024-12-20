@@ -1,10 +1,9 @@
 #ifndef CURRENTS_HANDLER_H_
 #define CURRENTS_HANDLER_H_
 
-#include "stm32l053xx.h"
+#include "Average_value_handler.h"
 
-typedef struct	{	uint64_t number_of_measurements;
-					uint64_t sum_of_all_measurements;
+typedef struct	{	Average_value_handler_t counter;
 
 					uint16_t maximal;
 					uint16_t minimal;	}	 Current_handler_buffer_t;
@@ -17,7 +16,7 @@ static inline uint16_t Current_handler_get_maximal(const Current_handler_buffer_
 static inline uint16_t Current_handler_get_minimal(const Current_handler_buffer_t *buffer)	{return buffer->minimal;}
 static inline uint16_t Current_handler_get_average(const Current_handler_buffer_t *buffer)
 {
-	return buffer->number_of_measurements == 0 ? 0 : buffer->sum_of_all_measurements / buffer->number_of_measurements;
+	return Average_handler_get_average(&buffer->counter);
 }
 
 #endif
