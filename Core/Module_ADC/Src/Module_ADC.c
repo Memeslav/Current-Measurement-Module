@@ -16,10 +16,7 @@ static void Module_ADC_Circuit_Disable(void)
 	RCC->IOPENR &=~RCC_IOPENR_GPIOBEN;
 }
 
-void Module_ADC_Enable(void)
-{
-	Driver_ADC_Enable();
-}
+void Module_ADC_Enable(void)	{Driver_ADC_Enable();}
 
 void Module_ADC_Measure(void)
 {

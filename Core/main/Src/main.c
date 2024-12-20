@@ -13,16 +13,13 @@ int main(void)
     Module_RTC_Periodic_WakeUp(Register_16b_Get(&registers.settings.measure_period));
 
     Module_PKM_Enable();
+    Module_ADC_Enable();
 
     while (1)
     {
     	//ждём разрешение на начало измерений
 
-    	Watchdog_Update();
-
     	Module_RTC_Watchdog_Update();
-
-    	//Register_32b_Increment(&registers.unixtime);
 
     	//Если ножка зажата, то в режим сна не уходим
     }

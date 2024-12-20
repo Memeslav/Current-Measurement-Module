@@ -65,7 +65,6 @@ void RTC_IRQHandler(void)
 	if (RTC->ISR & RTC_ISR_WUTF)
 	{
 		GPIOA->ODR ^= GPIO_ODR_OD8;
-		//IWDG->KR = 0x0000AAAA;
 
 		Register_32b_Increment(&registers.unixtime);
 
