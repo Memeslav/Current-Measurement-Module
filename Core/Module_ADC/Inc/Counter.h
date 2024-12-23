@@ -11,6 +11,7 @@ static inline void 		Counter_Clear		(Counter_t *buffer)					{  *buffer = (Counte
 static inline void 		Counter_Update		(Counter_t *buffer, uint16_t value)	{	buffer->quantity++;
 																					buffer->sum += value;}
 
-static inline uint16_t 	Counter_get_average	(const Counter_t *buffer)			{return buffer->quantity == 0 ? 0 : buffer->sum / buffer->quantity;}
+static inline uint16_t 	Counter_Get_Average	(const Counter_t *buffer)			{	return buffer->quantity == 0 ? 0 :
+																					buffer->sum / buffer->quantity;}
 
 #endif

@@ -1,6 +1,6 @@
 #include "Current_handler.h"
 
-void Current_handler_update(Current_handler_buffer_t *buffer, uint16_t signal)
+void Current_Handler_Update(Current_handler_t *buffer, uint16_t signal)
 {
 	Counter_Update(&buffer->counter, signal);
 

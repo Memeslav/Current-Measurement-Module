@@ -10,7 +10,9 @@ typedef struct
 }
 Trigger_t;
 
-static inline void Trigger_set(Trigger_t *trigger, ADC_Level_t value, ADC_Level_t hysteresis)	{	trigger->upper_limit = value + hysteresis / 2;
-																									trigger->lower_limit = value - hysteresis / 2;}
+static inline void Trigger_Set	(	Trigger_t *trigger,
+									ADC_Level_t value,
+									ADC_Level_t hysteresis)	{	trigger->upper_limit = value + hysteresis / 2;
+																trigger->lower_limit = value - hysteresis / 2;}
 
 #endif

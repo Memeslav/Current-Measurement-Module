@@ -1,22 +1,17 @@
 #ifndef CURRENTS_HANDLER_H_
 #define CURRENTS_HANDLER_H_
 
-#include <Counter.h>
+#include "Counter.h"
 
 typedef struct	{	Counter_t counter;
-
 					uint16_t maximal;
-					uint16_t minimal;	}	 Current_handler_buffer_t;
+					uint16_t minimal;	}	 Current_handler_t;
 
-static inline void Current_handler_reset	(Current_handler_buffer_t *buffer)	{*buffer = (Current_handler_buffer_t){0};}
+void 				Current_Handler_Update	(Current_handler_t *buffer, uint16_t signal);
+static inline void 	Current_Handler_Clear	(Current_handler_t *buffer)						{*buffer = (Current_handler_t){0};}
 
-void Current_handler_update					(Current_handler_buffer_t *buffer, uint16_t signal);
-
-static inline uint16_t Current_handler_get_maximal(const Current_handler_buffer_t *buffer)	{return buffer->maximal;}
-static inline uint16_t Current_handler_get_minimal(const Current_handler_buffer_t *buffer)	{return buffer->minimal;}
-static inline uint16_t Current_handler_get_average(const Current_handler_buffer_t *buffer)
-{
-	return Counter_get_average(&buffer->counter);
-}
+static inline uint16_t Current_Handler_Get_Maximal(const Current_handler_t *buffer)			{return buffer->maximal;}
+static inline uint16_t Current_Handler_Get_Minimal(const Current_handler_t *buffer)			{return buffer->minimal;}
+static inline uint16_t Current_Handler_Get_Average(const Current_handler_t *buffer)			{return Counter_Get_Average(&buffer->counter);}
 
 #endif
