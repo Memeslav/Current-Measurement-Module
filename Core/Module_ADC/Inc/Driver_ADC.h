@@ -3,21 +3,19 @@
 
 #include "ADC_Level.h"
 
-#define ADC_CHANNELS	4
-#define ADC_MAX_LEVEL	4095
+#define ADC_CHANNELS 4U
 
-typedef enum	{	INA333S = 0,
-					TPR3312 = 1,
-					INT_REF	= 2,
-					TEMPERC	= 3,	}	ADC_Channel;
+typedef enum 	{Measure_is_Complete = 1, Measure_in_Progress = 0}		ADC_State_e;
+typedef enum 	{INA333S = 0, TPR3312 = 1, INT_REF = 2, TEMPERC = 3}	ADC_Channel_e;
 
-typedef enum	{	IN_PROCESS = 0,
-					DATA_READY = 1,	}	ADC_STATE;
+typedef struct	{ADC_State_e* state;
+				 ADC_Level_t* channels;
 
-ADC_Level_t	Driver_ADC_Get_Channel		(ADC_Channel channel);
-ADC_STATE 	Driver_ADC_Get_State		(void);
-void Driver_ADC_Get_All_Channels		(ADC_Level_t *data);
-void Driver_ADC_Enable					(void);
-void Driver_ADC_Measure					(void);
+				 ADC_State_e (*get_state)		 (void);
+				 ADC_Level_t (*get_channel)		 (ADC_Channel_e);
+				 void 		 (*get_all_channels) (ADC_Level_t*);
+				 void 		 (*measure)			 (void);} ADC_t;
+
+void ADC_Init(ADC_t *adc);
 
 #endif

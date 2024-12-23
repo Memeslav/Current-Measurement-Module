@@ -1,9 +1,9 @@
 #include "Driver_ADC.h"
 
-ADC_STATE	adc_state				= DATA_READY;
-ADC_Level_t channels[ADC_CHANNELS] 	= {0};
+static ADC_State_e state;
+static ADC_Level_t channels[ADC_CHANNELS];
 
-static void DMA_Init(void)
+static void DMA_Enable(void)
 {
 	RCC->AHBENR |= RCC_AHBENR_DMA1EN;
 
@@ -18,7 +18,8 @@ static void DMA_Init(void)
 	NVIC_SetPriority(DMA1_Channel1_IRQn, 0);
 	NVIC_EnableIRQ(DMA1_Channel1_IRQn);
 }
-static void ADC_Init(void)
+
+static void ADC_Enable(void)
 {
 	RCC->APB2ENR |= RCC_APB2ENR_ADC1EN;
 
@@ -32,24 +33,29 @@ static void ADC_Init(void)
 		ADC1->CR 		|= ADC_CR_ADEN;
 }
 
-void Driver_ADC_Enable	(void)	{DMA_Init();	ADC_Init();}
-void Driver_ADC_Measure	(void)
+static ADC_State_e Get_State 	(void) 					{return state;}
+static ADC_Level_t Get_Channel	(ADC_Channel_e channel)	{return channels[channel];}
+static void Get_All_Channels 	(ADC_Level_t *data) 	{for (int i = 0; i < ADC_CHANNELS; i++) {data[i] = channels[i];}}
+
+static void Measure				(void)
 {
-	if(adc_state == IN_PROCESS) {return;}
-	adc_state = IN_PROCESS;
+	if(state == Measure_in_Progress) {return;}
+	state = Measure_in_Progress;
 	ADC1->CR |= ADC_CR_ADSTART;
 }
 
-void 		Driver_ADC_Get_All_Channels	(ADC_Level_t *data)		{for (int i = 0; i < ADC_CHANNELS; i++) {data[i] = channels[i];}}
-ADC_Level_t Driver_ADC_Get_Channel		(ADC_Channel channel)	{return channels[channel];}
-ADC_STATE 	Driver_ADC_Get_State		(void)					{return adc_state;}
-
-void DMA1_Channel1_IRQHandler(void)
+void ADC_Init(ADC_t *adc)
 {
-    if (DMA1->ISR & DMA_ISR_TCIF1)
-    {
-        DMA1->IFCR |= DMA_IFCR_CHTIF1;
-        adc_state = DATA_READY;
-    }
-    NVIC_ClearPendingIRQ(DMA1_Channel1_IRQn);
+	DMA_Enable();
+	ADC_Enable();
+
+	adc->state 		= &state;
+	adc->channels 	= channels;
+
+	for(int i = 0; i < ADC_CHANNELS; i++){channels[i] = 0;}
+
+	adc->measure 			= Measure;
+	adc->get_state 			= Get_State;
+	adc->get_channel		= Get_Channel;
+	adc->get_all_channels	= Get_All_Channels;
 }
