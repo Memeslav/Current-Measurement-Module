@@ -1,5 +1,5 @@
+#include <ADC.h>
 #include "main.h"
-#include "Driver_ADC.h"
 
 uint32_t times = 0;
 

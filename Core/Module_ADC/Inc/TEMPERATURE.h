@@ -1,7 +1,7 @@
 #ifndef TEMP_H_
 #define TEMP_H_
 
-#include "DRIVER_ADC.h"
+#include <ADC.h>
 
 typedef	float	Celsius_t;
 

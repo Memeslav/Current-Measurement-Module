@@ -10,6 +10,7 @@ void Module_ADC_Enable(void)
 	Current_Handler_Clear(&current_handler);
 	Impulse_Handler_Clear(&impulse_handler);
 
+
 	//Driver_ADC_Enable();
 }
 

@@ -1,4 +1,4 @@
-#include "DMA1.h"
+#include <DMA.h>
 
 void DMA_Enable(volatile uint32_t* from, volatile uint32_t* to, uint8_t size)
 {

@@ -1,7 +1,7 @@
 #ifndef ADC_H_
 #define ADC_H_
 
-#include "DMA1.h"
+#include "DMA.h"
 #include "ADC_Level.h"
 
 #define ADC_CHANNELS 4U

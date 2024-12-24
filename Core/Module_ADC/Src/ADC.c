@@ -1,9 +1,6 @@
-#include "Driver_ADC.h"
+#include "ADC.h"
 
-typedef struct	{	ADC_State_e state;
-					ADC_Level_t channels[ADC_CHANNELS];	}	ADC_Data_t;
-
-ADC_Data_t ADC_Data;
+struct ADC_Data { ADC_State_e state; ADC_Level_t channels[ADC_CHANNELS];} ADC_Data = {0};
 
 static void ADC_Enable(void)
 {
@@ -34,7 +31,7 @@ void ADC_Init(ADC_t *adc)
 	ADC_Enable();
 	DMA_Enable(&(ADC1->DR), (uint32_t*)ADC_Data.channels, ADC_CHANNELS);
 
-	ADC_Data = (ADC_Data_t){0};
+	//ADC_Data = (ADC_Data_t){0};
 
 	adc->state 		= &ADC_Data.state;
 	adc->channels 	= ADC_Data.channels;
