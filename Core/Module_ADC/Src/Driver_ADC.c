@@ -1,23 +1,9 @@
 #include "Driver_ADC.h"
 
-static ADC_State_e state;
-static ADC_Level_t channels[ADC_CHANNELS];
+typedef struct	{	ADC_State_e state;
+					ADC_Level_t channels[ADC_CHANNELS];	}	ADC_Data_t;
 
-static void DMA_Enable(void)
-{
-	RCC->AHBENR |= RCC_AHBENR_DMA1EN;
-
-		DMA1_Channel1->CMAR		 = (uint32_t)(&channels);
-		DMA1_Channel1->CPAR		 = (uint32_t)(&(ADC1->DR));
-		DMA1_Channel1->CNDTR	 = 	ADC_CHANNELS;
-		DMA1_Channel1->CCR		|=	DMA_CCR_HTIE;
-		DMA1_Channel1->CCR		|= 	DMA_CCR_MSIZE_0 | DMA_CCR_PSIZE_0;
-		DMA1_Channel1->CCR		|=	DMA_CCR_PL_Msk	| DMA_CCR_MINC;
-		DMA1_Channel1->CCR		|= 	DMA_CCR_CIRC	| DMA_CCR_EN;
-
-	NVIC_SetPriority(DMA1_Channel1_IRQn, 0);
-	NVIC_EnableIRQ(DMA1_Channel1_IRQn);
-}
+ADC_Data_t ADC_Data;
 
 static void ADC_Enable(void)
 {
@@ -33,29 +19,37 @@ static void ADC_Enable(void)
 		ADC1->CR 		|= ADC_CR_ADEN;
 }
 
-static ADC_State_e Get_State 	(void) 					{return state;}
-static ADC_Level_t Get_Channel	(ADC_Channel_e channel)	{return channels[channel];}
-static void Get_All_Channels 	(ADC_Level_t *data) 	{for (int i = 0; i < ADC_CHANNELS; i++) {data[i] = channels[i];}}
+static ADC_State_e Get_State 	(void) 					{return ADC_Data.state;}
+static ADC_Level_t Get_Channel	(ADC_Channel_e channel)	{return ADC_Data.channels[channel];}
+static void Get_All_Channels 	(ADC_Level_t *data) 	{for (int i = 0; i < ADC_CHANNELS; i++) {data[i] = ADC_Data.channels[i];}}
 
-static void Measure				(void)
-{
-	if(state == Measure_in_Progress) {return;}
-	state = Measure_in_Progress;
-	ADC1->CR |= ADC_CR_ADSTART;
-}
+static void Measure				(void)					{if(ADC_Data.state == Measure_in_Progress) {return;}
+														 ADC_Data.state = Measure_in_Progress;
+														 ADC1->CR |= ADC_CR_ADSTART;}
 
 void ADC_Init(ADC_t *adc)
 {
-	DMA_Enable();
 	ADC_Enable();
+	DMA_Enable	(	(uint32_t)(&ADC1->DR),
+					(uint32_t)(ADC_Data.channels),
+					ADC_CHANNELS);
 
-	adc->state 		= &state;
-	adc->channels 	= channels;
+	ADC_Data = (ADC_Data_t){0};
 
-	for(int i = 0; i < ADC_CHANNELS; i++){channels[i] = 0;}
+	adc->state 		= &ADC_Data.state;
+	adc->channels 	= ADC_Data.channels;
 
 	adc->measure 			= Measure;
 	adc->get_state 			= Get_State;
 	adc->get_channel		= Get_Channel;
 	adc->get_all_channels	= Get_All_Channels;
 }
+
+void DMA1_Channel1_IRQHandler(void)
+{
+    if (DMA1->ISR & DMA_ISR_TCIF1)	{ 	DMA1->IFCR |= DMA_IFCR_CHTIF1;
+        								ADC_Data.state = Measure_is_Complete;}
+
+    NVIC_ClearPendingIRQ(DMA1_Channel1_IRQn);
+}
+

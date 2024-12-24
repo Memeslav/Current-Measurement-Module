@@ -1,11 +1,12 @@
 #ifndef ADC_H_
 #define ADC_H_
 
+#include "DMA1.h"
 #include "ADC_Level.h"
 
 #define ADC_CHANNELS 4U
 
-typedef enum 	{Measure_is_Complete = 1, Measure_in_Progress = 0}		ADC_State_e;
+typedef enum 	{Measure_is_Complete = 0, Measure_in_Progress = 1}		ADC_State_e;
 typedef enum 	{INA333S = 0, TPR3312 = 1, INT_REF = 2, TEMPERC = 3}	ADC_Channel_e;
 
 typedef struct	{ADC_State_e* state;
