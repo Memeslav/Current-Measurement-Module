@@ -25,14 +25,14 @@ static void Get_All_Channels 	(ADC_Level_t *data) 	{for (int i = 0; i < ADC_CHAN
 
 static void Measure				(void)					{if(ADC_Data.state == Measure_in_Progress) {return;}
 														 ADC_Data.state = Measure_in_Progress;
-														 ADC1->CR |= ADC_CR_ADSTART;}
+														 ADC1->CR |= ADC_CR_ADSTART;
+														 DMA_Waiting_Transmission();
+														 ADC_Data.state = Measure_is_Complete;}
 
 void ADC_Init(ADC_t *adc)
 {
 	ADC_Enable();
-	DMA_Enable	(	(uint32_t)(&ADC1->DR),
-					(uint32_t)(ADC_Data.channels),
-					ADC_CHANNELS);
+	DMA_Enable(&(ADC1->DR), (uint32_t*)ADC_Data.channels, ADC_CHANNELS);
 
 	ADC_Data = (ADC_Data_t){0};
 
@@ -44,12 +44,3 @@ void ADC_Init(ADC_t *adc)
 	adc->get_channel		= Get_Channel;
 	adc->get_all_channels	= Get_All_Channels;
 }
-
-void DMA1_Channel1_IRQHandler(void)
-{
-    if (DMA1->ISR & DMA_ISR_TCIF1)	{ 	DMA1->IFCR |= DMA_IFCR_CHTIF1;
-        								ADC_Data.state = Measure_is_Complete;}
-
-    NVIC_ClearPendingIRQ(DMA1_Channel1_IRQn);
-}
-

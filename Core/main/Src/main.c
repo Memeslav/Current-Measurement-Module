@@ -1,10 +1,10 @@
 #include "main.h"
 #include "Driver_ADC.h"
 
+uint32_t times = 0;
+
 ADC_t adc;
 ADC_Level_t meme[4] = {0};
-
-ADC_Level_t boop = 0;
 
 int main(void)
 {
@@ -13,6 +13,8 @@ int main(void)
 	while (1)
     {
 		adc.measure();
-		boop = adc.get_channel(INA333S);
+		adc.get_all_channels(meme);
+
+		times++;
     }
 }

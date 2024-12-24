@@ -3,12 +3,4 @@
 
 #include "stm32l053xx.h"
 
-//#include "Memory.h"
-
-//#include "Module_RTC.h"
-//#include "Module_ADC.h"
-//#include "Module_PKM.h"
-
-//#include "Module_FRAM.h"
-
 #endif
