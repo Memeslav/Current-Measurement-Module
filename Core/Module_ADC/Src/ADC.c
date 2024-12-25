@@ -18,26 +18,30 @@ static void ADC_Enable(void)
 
 static ADC_State_e Get_State 	(void) 					{return ADC_Data.state;}
 static ADC_Level_t Get_Channel	(ADC_Channel_e channel)	{return ADC_Data.channels[channel];}
-static void Get_All_Channels 	(ADC_Level_t *data) 	{for (int i = 0; i < ADC_CHANNELS; i++) {data[i] = ADC_Data.channels[i];}}
+static void Get_All_Channels 	(ADC_Level_t *data) 	{for (int i = 0; i < ADC_CHANNELS; i++)
+														 {data[i] = ADC_Data.channels[i];}		}
 
 static void Measure				(void)					{if(ADC_Data.state == Measure_in_Progress) {return;}
 														 ADC_Data.state = Measure_in_Progress;
 														 ADC1->CR |= ADC_CR_ADSTART;
 														 DMA_Waiting_Transmission();
-														 ADC_Data.state = Measure_is_Complete;}
+														 ADC_Data.state = Measure_is_Complete;	}
+
+static void Clear				(void)					{ADC_Data.state = Measure_is_Complete;
+														 for (int i = 0; i < ADC_CHANNELS; i++)
+														 {ADC_Data.channels[i] = 0;}}
 
 void ADC_Init(ADC_t *adc)
 {
 	ADC_Enable();
 	DMA_Enable(&(ADC1->DR), (uint32_t*)ADC_Data.channels, ADC_CHANNELS);
 
-	//ADC_Data = (ADC_Data_t){0};
-
 	adc->state 		= &ADC_Data.state;
-	adc->channels 	= ADC_Data.channels;
+	adc->channels 	=  ADC_Data.channels;
 
 	adc->measure 			= Measure;
 	adc->get_state 			= Get_State;
 	adc->get_channel		= Get_Channel;
 	adc->get_all_channels	= Get_All_Channels;
+	adc->clear				= Clear;
 }

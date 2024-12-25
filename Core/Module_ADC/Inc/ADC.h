@@ -15,8 +15,9 @@ typedef struct	{ADC_State_e* state;
 				 ADC_State_e (*get_state)		 (void);
 				 ADC_Level_t (*get_channel)		 (ADC_Channel_e);
 				 void 		 (*get_all_channels) (ADC_Level_t*);
-				 void 		 (*measure)			 (void);} ADC_t;
+				 void 		 (*measure)			 (void);
+				 void 		 (*clear)			 (void);	}	ADC_t;
 
-void ADC_Init(ADC_t *adc);
+void ADC_Init	(ADC_t *adc);
 
 #endif

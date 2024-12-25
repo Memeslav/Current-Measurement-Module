@@ -1,20 +1,13 @@
-#include <ADC.h>
 #include "main.h"
 
-uint32_t times = 0;
-
-ADC_t adc;
-ADC_Level_t meme[4] = {0};
+Module_ADC_t Module_ADC;
 
 int main(void)
 {
-	ADC_Init(&adc);
+	Module_ADC_Init(&Module_ADC);
 
 	while (1)
     {
-		adc.measure();
-		adc.get_all_channels(meme);
 
-		times++;
     }
 }
