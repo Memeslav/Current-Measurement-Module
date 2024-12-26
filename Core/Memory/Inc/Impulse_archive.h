@@ -11,7 +11,7 @@ typedef struct
 }
 Impulse_archive_t;
 
-static inline void Impulse_Archive_Set_Impulse(volatile Impulse_archive_t* archive, const Impulse_t* impulse)
+static inline void Impulse_Archive_Save_Impulse(volatile Impulse_archive_t* archive, const Impulse_t* impulse)
 {
 	uint32_t index = Register_32b_Get(&impulse->number);
     archive->impulse[index % IMPULSE_ARCHIVE_SIZE] = *impulse;
