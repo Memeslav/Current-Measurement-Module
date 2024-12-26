@@ -1,7 +1,7 @@
-#include <ADC1.h>
+#include "ADC1.h"
 
-volatile ADC_STATE		ADC1_STATE					= Measure_is_Complete;
-volatile ADC_Level_t 	ADC1_DATA[ADC1_CHANNELS] 	= {0};
+volatile ADC_STATE	ADC1_STATE					= Measure_is_Complete;
+volatile uint16_t 	ADC1_DATA[ADC1_CHANNELS]	= {0};
 
 void ADC1_Enable	(void)
 {
@@ -17,7 +17,6 @@ void ADC1_Enable	(void)
 		ADC1->IER 		|= ADC_IER_EOSIE;
 		ADC1->CR 		|= ADC_CR_ADEN;
 }
-
 void ADC1_Measure	(void)
 {
 	if(ADC1_STATE == Measure_in_Progress) {return;}

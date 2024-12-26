@@ -5,6 +5,7 @@
 #define VDD_CALIB 			((uint16_t)(300))
 #define VDD_APPLI 			((uint16_t)(330))
 
+/*
 Celsius_t Calculate_Temperature(ADC_Level_t level)
 {
 	float temperature;
@@ -21,3 +22,4 @@ Celsius_t Calculate_Temperature(ADC_Level_t level)
 
     return temperature;
 }
+*/
