@@ -1,7 +1,7 @@
 #ifndef DPU_H_
 #define DPU_H_
 
-#include "DRIVER_ADC.h"
+#include <ADC1.h>
 
 typedef float	Volt_t;
 typedef float	m_Volt_t;

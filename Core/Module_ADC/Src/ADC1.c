@@ -1,0 +1,29 @@
+#include <ADC1.h>
+
+volatile ADC_STATE		ADC1_STATE					= Measure_is_Complete;
+volatile ADC_Level_t 	ADC1_DATA[ADC1_CHANNELS] 	= {0};
+
+void ADC1_Enable	(void)
+{
+	DMA_Enable(&(ADC1->DR), (uint32_t*)ADC1_DATA, ADC1_CHANNELS);
+
+	RCC->APB2ENR |= RCC_APB2ENR_ADC1EN;
+		ADC1->CFGR2 	|= ADC_CFGR2_CKMODE_Msk	| ADC_CFGR2_OVSR_Msk 	| ADC_CFGR2_OVSS_3 		| ADC_CFGR2_OVSE;
+		ADC->CCR 		|= ADC_CCR_VREFEN 		| ADC_CCR_TSEN;
+		ADC1->CR 	 	|= ADC_CR_ADVREGEN		| ADC_CR_ADCAL;
+		while(ADC1->CR & ADC_CR_ADCAL);
+		ADC1->CHSELR	|= ADC_CHSELR_CHSEL8 	| ADC_CHSELR_CHSEL9 	| ADC_CHSELR_CHSEL17 	| ADC_CHSELR_CHSEL18;
+		ADC1->CFGR1 	|= ADC_CFGR1_AUTOFF 	| ADC_CFGR1_DMACFG 		| ADC_CFGR1_DMAEN;
+		ADC1->IER 		|= ADC_IER_EOSIE;
+		ADC1->CR 		|= ADC_CR_ADEN;
+}
+
+void ADC1_Measure	(void)
+{
+	if(ADC1_STATE == Measure_in_Progress) {return;}
+	ADC1_STATE = Measure_in_Progress;
+	ADC1->CR |= ADC_CR_ADSTART;
+	while (!(DMA1->ISR & DMA_ISR_TCIF1)){}
+	DMA1->IFCR |= DMA_IFCR_CHTIF1;
+	ADC1_STATE = Measure_is_Complete;
+}

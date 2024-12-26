@@ -1,7 +1,7 @@
 #ifndef MODULE_ADC_H_
 #define MODULE_ADC_H_
 
-#include "Driver_ADC.h"
+#include <ADC1.h>
 
 void Module_ADC_Enable			(void);
 void Module_ADC_Measure			(void);
