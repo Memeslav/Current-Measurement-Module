@@ -50,6 +50,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Core/Module_FRAM/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Core/Module_PKM/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Core/Module_RTC/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Core/Module_UART/Inc}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.1094906430" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>
@@ -58,7 +59,7 @@
 								<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.option.optimization.level.130313556" name="Optimization level" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.option.optimization.level" useByScannerDiscovery="false"/>
 							</tool>
 							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.306546770" name="MCU GCC Linker" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker">
-								<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.script.1638930821" name="Linker Script (-T)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.script" value="C:\Users\vv.stepanishin\Documents\Firmware\Current-Measurement-Module\Startup\STM32L053C8TX_FLASH.ld" valueType="string"/>
+								<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.script.1638930821" name="Linker Script (-T)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.script" value="D:\Embedded\STM32L0\Current-Measurement-Module\Startup\STM32L053C8TX_FLASH.ld" valueType="string"/>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.input.1073713848" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -76,13 +77,14 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="Core/Memory/Src|Core/Module_ADC/Src|Core/Module_FRAM/Src|Core/Module_PKM/Src|Core/Module_RTC/Src|Core/main/Src|CMSIS/Src|Startup" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="Core/Module_UART/Src|Core/Memory/Src|Core/Module_ADC/Src|Core/Module_FRAM/Src|Core/Module_PKM/Src|Core/Module_RTC/Src|Core/main/Src|CMSIS/Src|Startup" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="CMSIS/Src"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Core/Memory/Src"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Core/Module_ADC/Src"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Core/Module_FRAM/Src"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Core/Module_PKM/Src"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Core/Module_RTC/Src"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Core/Module_UART/Src"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Core/main/Src"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Startup"/>
 					</sourceEntries>
