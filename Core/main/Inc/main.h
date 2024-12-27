@@ -2,5 +2,6 @@
 #define MAIN_H_
 
 #include "stm32l053xx.h"
+#include "USART1.h"
 
 #endif
